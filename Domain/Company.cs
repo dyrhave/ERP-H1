@@ -8,5 +8,6 @@ public class Company
     public string StreetNumber { get; set; }
     public string City { get; set; }
     public string Contry { get; set; }
+    public string PostCode { get; set; }
     public Currency Currency { get; set; }
 }

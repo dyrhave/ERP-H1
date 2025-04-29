@@ -4,7 +4,11 @@ public class CompanyEdit : Screen
 {
     
     public override string Title {get; set;} = "Company";
-    
+     void Back(Company _)
+    {        
+        Quit();        
+    }
+
     protected override void Draw()
     {
         ListPage<Company> lp = new();
@@ -18,7 +22,7 @@ public class CompanyEdit : Screen
 
 
         lp.Add(Database.Instance.GetCompany());
-        
+        lp.AddKey(ConsoleKey.Escape, Back);
         lp.Select();
     }
 }

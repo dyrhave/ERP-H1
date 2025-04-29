@@ -1,4 +1,5 @@
 using System.Formats.Tar;
+using Mysqlx.Crud;
 using TECHCOOL.UI;
 
 public class CompanyListPage : Screen
@@ -11,6 +12,11 @@ public class CompanyListPage : Screen
     void ShowEdit(Company _)
     {
         Screen.Display(new CompanyEdit());
+    }
+    void Delete(Company cmp)
+    {
+        Database.Instance.DeleteCompany(cmp.CompanyId);
+        Console.Clear();      
     }
 
 
@@ -26,7 +32,8 @@ public class CompanyListPage : Screen
 
         lp.AddKey(ConsoleKey.F1, ShowInfo);
         lp.AddKey(ConsoleKey.F2, ShowEdit);
-        lp.Select();
+        lp.AddKey(ConsoleKey.F5, Delete);
+        lp.Select();    
 
     }
 }

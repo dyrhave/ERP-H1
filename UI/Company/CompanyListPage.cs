@@ -18,6 +18,10 @@ public class CompanyListPage : Screen
         Database.Instance.DeleteCompany(cmp.CompanyId);
         Console.Clear();      
     }
+    void Back(Company _)
+    {        
+        Quit();       
+    }
 
 
     protected override void Draw()
@@ -33,6 +37,7 @@ public class CompanyListPage : Screen
         lp.AddKey(ConsoleKey.F1, ShowInfo);
         lp.AddKey(ConsoleKey.F2, ShowEdit);
         lp.AddKey(ConsoleKey.F5, Delete);
+        lp.AddKey(ConsoleKey.Escape, Back);
         lp.Select();    
 
     }

@@ -1,21 +1,8 @@
 using TECHCOOL.UI;
 
-public class ProductListPage : Screen
+public class ProductDetailes : Screen
 {
     public override string Title {get; set;} = "Products";
-    void ShowInfo(Product _)
-    {
-        Screen.Display(new ProductDetailes());
-    }
-    void ShowEdit(Product _)
-    {
-        Screen.Display(new ProductEdit());
-    }
-    void Delete(Product cmp)
-    {
-        Database.Instance.DeleteProduct(cmp.ProductId);
-        Console.Clear();      
-    }
     void Back(Product _)
     {        
         Quit();       
@@ -26,18 +13,19 @@ public class ProductListPage : Screen
         ListPage<Product> lp = new();
         lp.AddColumn("ProductId", nameof(Product.ProductId));
         lp.AddColumn("Name", nameof(Product.Name));
-        lp.AddColumn("Stock", nameof(Product.Stock));
+        lp.AddColumn("Description", nameof(Product.Description));
+        lp.AddColumn("Price", nameof(Product.Price));
         lp.AddColumn("BuyInPrice", nameof(Product.BuyInPrice));
-        lp.AddColumn("Price", nameof(Product.Price));       
+        lp.AddColumn("Location", nameof(Product.Location));
+        lp.AddColumn("Stock", nameof(Product.Stock));
+        lp.AddColumn("Unit", nameof(Product.Unit));
         lp.AddColumn("ProfitMargin", nameof(Product.ShowProfitMargin));
+        lp.AddColumn("Profit", nameof(Product.ShowProfit));
        
         
         
 
         lp.Add(Database.Instance.GetProduct());
-        lp.AddKey(ConsoleKey.F1, ShowInfo);
-        lp.AddKey(ConsoleKey.F2, ShowEdit);
-        lp.AddKey(ConsoleKey.F5, Delete);
         lp.AddKey(ConsoleKey.Escape, Back);
         lp.Select();
     }

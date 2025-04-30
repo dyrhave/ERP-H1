@@ -1,11 +1,11 @@
 public partial class Database
 {
-    List<Product> sales = new();
-    public Product? GetSaleById(int id)
+    List<SalesHeader> sales = new();
+    public SalesHeader? GetSaleById(int id)
     {
         foreach (var sale in sales)
         {
-            if (sale.ProductId == id)
+            if (sale.OrderId == id)
             {
                 return sale;
             }
@@ -13,41 +13,39 @@ public partial class Database
         return null;
 
     }
-    public Product[] GetSale()
+    public SalesHeader[] GetSale()
     {
         return sales.ToArray();
     }
 
-    public void AddSale(Product sale)
+    public void AddSale(SalesHeader sale)
     {
-        if (sale.ProductId == 0)
+        if (sale.OrderId == 0)
         {
             sales.Add(sale);
-            sale.ProductId = sales.Count;
+            sale.OrderId = sales.Count;
         }
     }
-    public void UpdateSale(Product sale)
+    public void UpdateSale(SalesHeader sale)
     {
-        if (sale.ProductId == 0)
+        if (sale.OrderId == 0)
         {
             return;
         }
-        Product? oldsale = GetSaleById(sale.ProductId);
+        SalesHeader? oldsale = GetSaleById(sale.OrderId);
         if (oldsale == null)
         {
             return;
         }
-        /*oldsale.Name = sale.Name;
-        oldsale.Description = sale.Description;
-        oldsale.Price = sale.Price;
-        oldsale.BuyInPrice = sale.BuyInPrice;
-        oldsale.Stock = sale.Stock;
-        oldsale.Location = sale.Location;
-        oldsale.Unit = sale.Unit;*/
+        oldsale.OrderId = sale.OrderId;
+        oldsale.OrderItems = sale.OrderItems;
+        oldsale.State = sale.State;
+        //sprøg simmon omkring S1 update
+        
     }
     public void DeleteSale(int id)
     {
-        Product? sale = GetSaleById(id);
+        SalesHeader? sale = GetSaleById(id);
         if (sale != null)
         sales.Remove(sale);
     }

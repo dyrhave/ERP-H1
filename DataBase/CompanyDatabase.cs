@@ -47,6 +47,8 @@ public partial class Database
     {
         Company? company = GetCompanyById(id);
         if (company != null)
-        companies.Remove(company);
+        {
+            companies.Remove(company);
+        }
     }
 }

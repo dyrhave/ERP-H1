@@ -16,4 +16,9 @@ public class Person
     {
         return $"{FirstName} {LastName}";
     }
+
+    public string CustomerFullAddress()
+    {
+        return $"{Street} {StreetNumber}, {City}, {PostCode}, {Country}";
+    }
 }

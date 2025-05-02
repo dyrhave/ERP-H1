@@ -10,21 +10,18 @@ public class ProductEdit : Screen
 
     protected override void Draw()
     {
-        ListPage<Product> lp = new();
-        lp.AddColumn("ProductId", nameof(Product.ProductId));
-        lp.AddColumn("Name", nameof(Product.Name));
-        lp.AddColumn("Description", nameof(Product.Description));
-        lp.AddColumn("Price", nameof(Product.Price));
-        lp.AddColumn("BuyInPrice", nameof(Product.BuyInPrice));
-        lp.AddColumn("Location", nameof(Product.Location));
-        lp.AddColumn("Stock", nameof(Product.Stock));
-        lp.AddColumn("Unit", nameof(Product.Unit));     
-       
-        
-        
+        Product product = new Product();
+        Form<Product> editor = new();
+        editor.IntBox("ProductId", nameof(Product.ProductId));
+        editor.TextBox("Name", nameof(Product.Name));
+        editor.TextBox("Description", nameof(Product.Description));
+        editor.IntBox("Price", nameof(Product.Price));
+        editor.IntBox("BuyInPrice", nameof(Product.BuyInPrice));
+        editor.TextBox("Location", nameof(Product.Location));
+        editor.IntBox("Stock", nameof(Product.Stock));
+        editor.TextBox("Unit", nameof(Product.Unit));
+        editor.Edit(product);
 
-        lp.Add(Database.Instance.GetProduct());
-        lp.AddKey(ConsoleKey.Escape, Back);
-        lp.Select();
+        // Screen.AddKey(ConsoleKey.Escape, Back);
     }
 }

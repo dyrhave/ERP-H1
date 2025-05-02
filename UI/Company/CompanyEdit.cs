@@ -1,28 +1,42 @@
+using System.Data.Entity.Infrastructure.MappingViews;
 using TECHCOOL.UI;
 
 public class CompanyEdit : Screen
 {
     
-    public override string Title {get; set;} = "Company";
-     void Back(Company _)
+    public override string Title {get; set;} = "Edit Company";
+    void Back(Company _)
     {        
         Quit();        
     }
 
     protected override void Draw()
     {
-        ListPage<Company> lp = new();
-        lp.AddColumn("Name", nameof(Company.Name));
-        lp.AddColumn("Street", nameof(Company.Street));
-        lp.AddColumn("StreetNumber", nameof(Company.StreetNumber));
-        lp.AddColumn("Postcode", nameof(Company.PostCode));
-        lp.AddColumn("City", nameof(Company.City));
-        lp.AddColumn("Country", nameof(Company.Contry));
-        lp.AddColumn("Currency", nameof(Company.Currency));
+        Company company = new Company();
+
+        Form<Company> Fm = new();
+        Fm.TextBox("Title", nameof(Company.Name));
+        
+        Fm.TextBox("Street", nameof(Company.Street));
+        
+        Fm.TextBox("StreetNumber", nameof(Company.StreetNumber));
+        
+        Fm.TextBox("PostalCode", nameof(Company.PostCode));
+        
+        Fm.TextBox("City", nameof(Company.City));
+        
+        Fm.TextBox("Contry", nameof(Company.Contry));
+        
+        Fm.SelectBox("Currency", nameof(Company.Currency));
+        Fm.AddOption("Currency","USD", Currency.USD);
+        Fm.AddOption("Currency", "EUR", Currency.EUR);
+        Fm.AddOption("Currency", "DKK", Currency.DKK);
+        Fm.AddOption("Currency", "SEK", Currency.SEK);
+        Fm.Edit(company);
+        
+       // Screen.AddKey(ConsoleKey.Escape, Back);
 
 
-        lp.Add(Database.Instance.GetCompany());
-        lp.AddKey(ConsoleKey.Escape, Back);
-        lp.Select();
+        
     }
 }

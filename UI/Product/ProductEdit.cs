@@ -2,7 +2,7 @@ using TECHCOOL.UI;
 
 public class ProductEdit : Screen
 {
-    public override string Title {get; set;} = "Products";
+    public override string Title {get; set;} = "Edit Products";
     void Back(Product _)
     {        
         Quit();       

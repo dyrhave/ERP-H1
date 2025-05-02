@@ -4,6 +4,6 @@ public enum Currency
 {
     DKK,
     EUR,
-    Sel,
+    SEK,
     USD,
 }

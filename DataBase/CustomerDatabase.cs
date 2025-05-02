@@ -19,7 +19,7 @@ public partial class Database
         return _customers.ToArray();
     }
 
-    public void AddCompany(Customer c)
+    public void AddCustomer(Customer c)
     {
         if (c.CustomerId == 0)
         {

@@ -16,7 +16,7 @@ public class CustomerListPage : Screen
 
     void Delete(Customer c)
     {
-        Database.Instance.DeleteCustomer(c.CustomerId);
+        Database.Instance?.DeleteCustomer(c.CustomerId);
         Console.Clear();
     }
 
@@ -24,11 +24,11 @@ public class CustomerListPage : Screen
     {
         ListPage<Customer> lp = new();
         lp.AddColumn("CustomerId", nameof(Customer.CustomerId));
-        lp.AddColumn("Name", nameof(Person.GetFullName));
+        lp.AddColumn("Name", nameof(Person.FirstName)+" "+nameof(Person.LastName));
         lp.AddColumn("Phone", nameof(Person.Phone));
         lp.AddColumn("Email", nameof(Person.Email));
 
-        lp.Add(Database.Instance.GetCustomer());
+        lp.Add(Database.Instance?.GetCustomers());
 
         lp.AddKey(ConsoleKey.F1, ShowInfo);
         lp.AddKey(ConsoleKey.F2, ShowEdit);

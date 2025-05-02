@@ -6,7 +6,11 @@ public class CustomerEdit : Screen
     protected override void Draw()
     {
         Clear();
-        Customer c = new Customer();
+        Customer c = new Customer
+        {
+            FirstName = "",
+            LastName = ""
+        };
         
         Form<Customer> editor = new Form<Customer>();
         editor.TextBox("First Name", nameof(Customer.FirstName));
@@ -17,6 +21,6 @@ public class CustomerEdit : Screen
         editor.TextBox("City", nameof(Customer.City));
         editor.TextBox("PostCode", nameof(Customer.PostCode));
         editor.TextBox("Country", nameof(Customer.Country));
-        editor.TextBox("CustomerId", nameof(Customer.CustomerId));
+        editor.IntBox("CustomerId", nameof(Customer.CustomerId));
     }
 }

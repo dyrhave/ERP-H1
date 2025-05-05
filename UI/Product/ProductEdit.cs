@@ -18,7 +18,7 @@ public class ProductEdit : Screen
         editor.IntBox("Price", nameof(Product.Price));
         editor.IntBox("BuyInPrice", nameof(Product.BuyInPrice));
         editor.TextBox("Location", nameof(Product.Location));
-        editor.IntBox("Stock", nameof(Product.Stock));
+        editor.IntBox("Stock", nameof(Product.Quantity));
         editor.TextBox("Unit", nameof(Product.Unit));
         editor.Edit(product);
 

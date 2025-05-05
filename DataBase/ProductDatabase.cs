@@ -41,7 +41,7 @@ public partial class Database
         oldproduct.Description = product.Description;
         oldproduct.Price = product.Price;
         oldproduct.BuyInPrice = product.BuyInPrice;
-        oldproduct.Stock = product.Stock;
+        oldproduct.Quantity = product.Quantity;
         oldproduct.Location = product.Location;
         oldproduct.Unit = product.Unit;
     }

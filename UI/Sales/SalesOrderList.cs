@@ -11,7 +11,7 @@ public class SalesOrderList : Screen
 
     void ShowEdit(SalesOrder so)
     {
-        Screen.Display(new SalesEdit());
+        Screen.Display(new SalesOrderEdit());
     }
 
     void Delete(SalesOrder so)
@@ -29,7 +29,7 @@ public class SalesOrderList : Screen
         lp.AddColumn("Customer Name", nameof(Customer.GetFullName));
         lp.AddColumn("Price", nameof(SalesOrder.TotalPrice));
 
-        lp.Add(Database.Instance.GetProduct());
+        lp.Add(Database.Instance?.GetSales());
         
         lp.AddKey(ConsoleKey.F1, ShowInfo);
         lp.AddKey(ConsoleKey.F2, ShowEdit);

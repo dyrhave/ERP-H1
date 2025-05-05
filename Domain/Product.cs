@@ -5,7 +5,7 @@ public class Product
     public string Description { get; set; } = "";
     public decimal Price { get; set; }
     public decimal BuyInPrice { get; set; }
-    public decimal Stock { get; set; }
+    public decimal Quantity { get; set; }
     public string Location { get; set; } = "";
     public string Unit { get; set; } = "";
     public decimal ShowProfitMargin

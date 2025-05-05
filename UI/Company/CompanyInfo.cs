@@ -21,7 +21,7 @@ public class CompanyInfo : Screen
         
         
 
-        lp.Add(Database.Instance.GetCompany());
+        lp.Add(Database.Instance?.GetCompany());
         lp.AddKey(ConsoleKey.Escape, Back);
         lp.Select();
     }

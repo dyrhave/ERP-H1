@@ -1,7 +1,9 @@
+using TECHCOOL.UI;
+
 public partial class Database
 {
-    List<SalesHeader> sales = new();
-    public SalesHeader? GetSaleById(int id)
+    List<SalesOrder> sales = new();
+    public SalesOrder? GetSaleById(int id)
     {
         foreach (var sale in sales)
         {
@@ -13,12 +15,12 @@ public partial class Database
         return null;
 
     }
-    public SalesHeader[] GetSale()
+    public SalesOrder[] GetSales()
     {
         return sales.ToArray();
     }
 
-    public void AddSale(SalesHeader sale)
+    public void AddSale(SalesOrder sale)
     {
         if (sale.OrderId == 0)
         {
@@ -26,13 +28,13 @@ public partial class Database
             sale.OrderId = sales.Count;
         }
     }
-    public void UpdateSale(SalesHeader sale)
+    public void UpdateSale(SalesOrder sale)
     {
         if (sale.OrderId == 0)
         {
             return;
         }
-        SalesHeader? oldsale = GetSaleById(sale.OrderId);
+        SalesOrder? oldsale = GetSaleById(sale.OrderId);
         if (oldsale == null)
         {
             return;
@@ -45,7 +47,7 @@ public partial class Database
     }
     public void DeleteSale(int id)
     {
-        SalesHeader? sale = GetSaleById(id);
+        SalesOrder? sale = GetSaleById(id);
         if (sale != null)
         sales.Remove(sale);
     }

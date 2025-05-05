@@ -5,10 +5,7 @@ public class CompanyEdit : Screen
 {
     
     public override string Title {get; set;} = "Edit Company";
-    void Back(Company _)
-    {        
-        Quit();        
-    }
+    void Back(Company _) => Quit();
 
     protected override void Draw()
     {

@@ -18,7 +18,7 @@ public class ProductDetailes : Screen
         lp.AddColumn("BuyInPrice", nameof(Product.BuyInPrice));
         lp.AddColumn("In Stock", nameof(Product.Quantity));
         lp.AddColumn("Location", nameof(Product.Location));
-        lp.AddColumn("Stock", nameof(Product.Stock));
+        lp.AddColumn("Stock", nameof(Product.Quantity));
         lp.AddColumn("Unit", nameof(Product.Unit));
         lp.AddColumn("ProfitMargin", nameof(Product.ShowProfitMargin));
         lp.AddColumn("Profit", nameof(Product.ShowProfit));
@@ -26,7 +26,7 @@ public class ProductDetailes : Screen
         
         
 
-        lp.Add(Database.Instance.GetProduct());
+        lp.Add(Database.Instance?.GetProduct());
         lp.AddKey(ConsoleKey.Escape, Back);
         lp.Select();
     }

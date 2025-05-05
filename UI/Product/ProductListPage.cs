@@ -13,7 +13,7 @@ public class ProductListPage : Screen
     }
     void Delete(Product cmp)
     {
-        Database.Instance.DeleteProduct(cmp.ProductId);
+        Database.Instance?.DeleteProduct(cmp.ProductId);
         Console.Clear();      
     }
     void Back(Product _)
@@ -26,7 +26,7 @@ public class ProductListPage : Screen
         ListPage<Product> lp = new();
         lp.AddColumn("ProductId", nameof(Product.ProductId));
         lp.AddColumn("Name", nameof(Product.Name));
-        lp.AddColumn("Stock", nameof(Product.Stock));
+        lp.AddColumn("Stock", nameof(Product.Quantity));
         lp.AddColumn("BuyInPrice", nameof(Product.BuyInPrice));
         lp.AddColumn("Price", nameof(Product.Price));       
         lp.AddColumn("ProfitMargin", nameof(Product.ShowProfitMargin));
@@ -34,7 +34,7 @@ public class ProductListPage : Screen
         
         
 
-        lp.Add(Database.Instance.GetProduct());
+        lp.Add(Database.Instance?.GetProduct());
         lp.AddKey(ConsoleKey.F1, ShowInfo);
         lp.AddKey(ConsoleKey.F2, ShowEdit);
         lp.AddKey(ConsoleKey.F5, Delete);

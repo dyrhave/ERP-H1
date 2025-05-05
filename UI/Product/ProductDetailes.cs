@@ -16,6 +16,7 @@ public class ProductDetailes : Screen
         lp.AddColumn("Description", nameof(Product.Description));
         lp.AddColumn("Price", nameof(Product.Price));
         lp.AddColumn("BuyInPrice", nameof(Product.BuyInPrice));
+        lp.AddColumn("In Stock", nameof(Product.Quantity));
         lp.AddColumn("Location", nameof(Product.Location));
         lp.AddColumn("Stock", nameof(Product.Stock));
         lp.AddColumn("Unit", nameof(Product.Unit));

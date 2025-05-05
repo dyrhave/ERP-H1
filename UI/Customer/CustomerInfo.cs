@@ -4,7 +4,7 @@ public class CustomerInfo : Screen
 {
     public override string Title { get; set; } = "Customer";
 
-    Void Back(Customer _)
+    void Back(Customer _)
     {
         Quit();
     }

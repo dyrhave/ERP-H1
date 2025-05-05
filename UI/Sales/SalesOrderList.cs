@@ -28,5 +28,13 @@ public class SalesOrderList : Screen
         lp.AddColumn("Customer ID", nameof(SalesOrder.CustomerId));
         lp.AddColumn("Customer Name", nameof(Customer.GetFullName));
         lp.AddColumn("Price", nameof(SalesOrder.TotalPrice));
+
+        lp.Add(Database.Instance.GetProduct());
+        
+        lp.AddKey(ConsoleKey.F1, ShowInfo);
+        lp.AddKey(ConsoleKey.F2, ShowEdit);
+        lp.AddKey(ConsoleKey.F5, Delete);
+        lp.Select();   
+
     }
 }

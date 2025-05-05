@@ -28,9 +28,10 @@ public class CompanyEdit : Screen
         editor.AddOption("Currency", "SEK", Currency.SEK);
         editor.Edit(company);
         
-       // Screen.AddKey(ConsoleKey.Escape, Back);
+      // gemmer ikke og man kan ikke se det gamle ting inde i editoren
 
-
+       
+        Quit();
         
     }
 }

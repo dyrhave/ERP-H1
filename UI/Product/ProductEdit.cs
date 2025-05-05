@@ -22,6 +22,9 @@ public class ProductEdit : Screen
         editor.TextBox("Unit", nameof(Product.Unit));
         editor.Edit(product);
 
+        
+        Quit();
+
         // Screen.AddKey(ConsoleKey.Escape, Back);
     }
 }

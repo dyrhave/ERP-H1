@@ -11,11 +11,7 @@ public class ProductListPage : Screen
     {
         Screen.Display(new ProductEdit());
     }
-    void Delete(Product cmp)
-    {
-        Database.Instance?.DeleteProduct(cmp.ProductId);
-        Console.Clear();      
-    }
+    
     void Back(Product _)
     {        
         Quit();       
@@ -36,8 +32,7 @@ public class ProductListPage : Screen
 
         lp.Add(Database.Instance?.GetProduct());
         lp.AddKey(ConsoleKey.F1, ShowInfo);
-        lp.AddKey(ConsoleKey.F2, ShowEdit);
-        lp.AddKey(ConsoleKey.F5, Delete);
+        lp.AddKey(ConsoleKey.F2, ShowEdit);        
         lp.AddKey(ConsoleKey.Escape, Back);
         lp.Select();
     }

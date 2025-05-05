@@ -3,6 +3,10 @@ using TECHCOOL.UI;
 public class CustomerEdit : Screen
 {
     public override string Title { get; set; } = "Edit Customer";
+    void Back(Customer _)
+    {        
+        Quit();       
+    }
     protected override void Draw()
     {
         Clear();
@@ -22,5 +26,7 @@ public class CustomerEdit : Screen
         editor.TextBox("PostCode", nameof(Customer.PostCode));
         editor.TextBox("Country", nameof(Customer.Country));
         editor.IntBox("CustomerId", nameof(Customer.CustomerId));
+
+         Quit();
     }
 }

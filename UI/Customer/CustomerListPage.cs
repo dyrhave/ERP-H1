@@ -13,11 +13,10 @@ public class CustomerListPage : Screen
     {
         Screen.Display(new CustomerEdit());
     }
-
-    void Delete(Customer c)
-    {
-        Database.Instance?.DeleteCustomer(c.CustomerId);
-        Console.Clear();
+   
+     void Back(Customer _)
+    {        
+        Quit();       
     }
 
     protected override void Draw()
@@ -31,8 +30,8 @@ public class CustomerListPage : Screen
         lp.Add(Database.Instance?.GetCustomers());
 
         lp.AddKey(ConsoleKey.F1, ShowInfo);
-        lp.AddKey(ConsoleKey.F2, ShowEdit);
-        lp.AddKey(ConsoleKey.F5, Delete);
+        lp.AddKey(ConsoleKey.F2, ShowEdit);        
+        lp.AddKey(ConsoleKey.Escape, Back);
         lp.Select();
     }
 }

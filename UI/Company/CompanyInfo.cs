@@ -3,6 +3,11 @@ using TECHCOOL.UI;
 public class CompanyInfo : Screen
 {
     public override string Title {get; set;} = "Company";
+    void Delete(Company cmp)
+    {
+        Database.Instance.DeleteCompany(cmp.CompanyId);
+        Console.Clear();      
+    }
     void Back(Company _)
     {        
         Quit();       
@@ -22,6 +27,7 @@ public class CompanyInfo : Screen
         
 
         lp.Add(Database.Instance?.GetCompany());
+        lp.AddKey(ConsoleKey.F5, Delete);
         lp.AddKey(ConsoleKey.Escape, Back);
         lp.Select();
     }

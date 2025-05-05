@@ -5,6 +5,11 @@ public class SalesInfo : Screen
     public override string Title { get; set; } = "Sales Order";
 
     void Back(SalesOrder so) => Quit();
+    void Delete(SalesOrder so)
+    {
+        Database.Instance?.DeleteSale(so.OrderId);
+        Clear();
+    }
 
 
     protected override void Draw()
@@ -21,6 +26,9 @@ public class SalesInfo : Screen
         {
             SalesOrderEdit edit = new SalesOrderEdit();
         });
+
+        lp.AddKey(ConsoleKey.Escape, Back);
+        lp.AddKey(ConsoleKey.F5, Delete);
         lp.Select();
     }
 }

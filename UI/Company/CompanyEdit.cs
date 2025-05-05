@@ -28,7 +28,7 @@ public class CompanyEdit : Screen
       // gemmer ikke og man kan ikke se det gamle ting inde i editoren
 
        
-        Quit();
+        Quit();       
         
     }
 }

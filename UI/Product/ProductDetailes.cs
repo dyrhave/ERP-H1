@@ -3,6 +3,11 @@ using TECHCOOL.UI;
 public class ProductDetailes : Screen
 {
     public override string Title {get; set;} = "Products";
+    void Delete(Product cmp)
+    {
+        Database.Instance?.DeleteProduct(cmp.ProductId);
+        Console.Clear();      
+    }
     void Back(Product _)
     {        
         Quit();       
@@ -28,6 +33,7 @@ public class ProductDetailes : Screen
 
         lp.Add(Database.Instance?.GetProduct());
         lp.AddKey(ConsoleKey.Escape, Back);
+        lp.AddKey(ConsoleKey.F5, Delete);
         lp.Select();
     }
 }

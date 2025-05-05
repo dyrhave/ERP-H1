@@ -14,11 +14,7 @@ public class SalesOrderList : Screen
         Screen.Display(new SalesOrderEdit());
     }
 
-    void Delete(SalesOrder so)
-    {
-        Database.Instance?.DeleteSale(so.OrderId);
-        Clear();
-    }
+    
 
     protected override void Draw()
     {
@@ -32,8 +28,7 @@ public class SalesOrderList : Screen
         lp.Add(Database.Instance?.GetSales());
         
         lp.AddKey(ConsoleKey.F1, ShowInfo);
-        lp.AddKey(ConsoleKey.F2, ShowEdit);
-        lp.AddKey(ConsoleKey.F5, Delete);
+        lp.AddKey(ConsoleKey.F2, ShowEdit);        
         lp.Select();   
 
     }

@@ -9,13 +9,6 @@ public class SalesOrderList : Screen
         Screen.Display(new SalesInfo());
     }
 
-    void ShowEdit(SalesOrder so)
-    {
-        Screen.Display(new SalesOrderEdit());
-    }
-
-    
-
     protected override void Draw()
     {
         ListPage<SalesOrder> lp = new ListPage<SalesOrder>();
@@ -27,8 +20,7 @@ public class SalesOrderList : Screen
 
         lp.Add(Database.Instance?.GetSales());
         
-        lp.AddKey(ConsoleKey.F1, ShowInfo);
-        lp.AddKey(ConsoleKey.F2, ShowEdit);        
+        lp.AddKey(ConsoleKey.F1, ShowInfo);                
         lp.Select();   
 
     }

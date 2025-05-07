@@ -10,6 +10,11 @@ public class SalesInfo : Screen
         Database.Instance?.DeleteSale(so.OrderId);
         Clear();
     }
+    void ShowEdit(SalesOrder so)
+    {
+        Screen.Display(new SalesOrderEdit());
+    }
+    
 
 
     protected override void Draw()
@@ -29,6 +34,7 @@ public class SalesInfo : Screen
 
         lp.AddKey(ConsoleKey.Escape, Back);
         lp.AddKey(ConsoleKey.F5, Delete);
+        lp.AddKey(ConsoleKey.F2, ShowEdit);
         lp.Select();
     }
 }

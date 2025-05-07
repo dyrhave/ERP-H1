@@ -1,8 +1,10 @@
 using TECHCOOL.UI;
+using System;
 
 public class CompanyInfo : Screen
 {
     public override string Title {get; set;} = "Company";
+    
     void Delete(Company cmp)
     {
         Database.Instance.DeleteCompany(cmp.CompanyId);
@@ -12,9 +14,14 @@ public class CompanyInfo : Screen
     {        
         Quit();       
     }
+    void ShowEdit(Company _)
+    {
+        Screen.Display(new CompanyEdit());
+    }
 
     protected override void Draw()
     {
+        
         ListPage<Company> lp = new();
         lp.AddColumn("Name", nameof(Company.Name));
         lp.AddColumn("Street", nameof(Company.Street));
@@ -27,6 +34,7 @@ public class CompanyInfo : Screen
         
 
         lp.Add(Database.Instance?.GetCompany());
+        lp.AddKey(ConsoleKey.F2, ShowEdit);
         lp.AddKey(ConsoleKey.F5, Delete);
         lp.AddKey(ConsoleKey.Escape, Back);
         lp.Select();

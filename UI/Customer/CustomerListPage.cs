@@ -9,10 +9,7 @@ public class CustomerListPage : Screen
         Screen.Display(new CustomerInfo());
     }
 
-    void ShowEdit(Customer _)
-    {
-        Screen.Display(new CustomerEdit());
-    }
+    
    
      void Back(Customer _)
     {        
@@ -29,8 +26,7 @@ public class CustomerListPage : Screen
 
         lp.Add(Database.Instance?.GetCustomers());
 
-        lp.AddKey(ConsoleKey.F1, ShowInfo);
-        lp.AddKey(ConsoleKey.F2, ShowEdit);        
+        lp.AddKey(ConsoleKey.F1, ShowInfo);                
         lp.AddKey(ConsoleKey.Escape, Back);
         lp.Select();
     }

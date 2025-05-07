@@ -8,7 +8,13 @@ Database.Instance?.AddProduct(new() { Name = "Test", Quantity = 10,BuyInPrice = 
 
 CompanyListPage companylistpage = new();
 ProductListPage productlistpage = new();
+CustomerListPage customerlistPage = new();
+SalesOrderList salesOrderList = new();
+
+
 Menu mainMenu = new();
 mainMenu.Add(companylistpage);
 mainMenu.Add(productlistpage);
+mainMenu.Add(customerlistPage);
+mainMenu.Add(salesOrderList);
 Screen.Display(mainMenu);

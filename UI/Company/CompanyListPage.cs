@@ -9,10 +9,7 @@ public class CompanyListPage : Screen
     {
         Screen.Display(new CompanyInfo());
     }
-    void ShowEdit(Company _)
-    {
-        Screen.Display(new CompanyEdit());
-    }
+    
     
     void Back(Company _)
     {        
@@ -22,6 +19,8 @@ public class CompanyListPage : Screen
 
     protected override void Draw()
     {
+        
+       
         ListPage<Company> lp = new();
         lp.AddColumn("Name", nameof(Company.Name));
         lp.AddColumn("Country", nameof(Company.Contry));
@@ -30,10 +29,10 @@ public class CompanyListPage : Screen
         lp.Add(Database.Instance.GetCompany());
         
 
-        lp.AddKey(ConsoleKey.F1, ShowInfo);
-        lp.AddKey(ConsoleKey.F2, ShowEdit);        
+        lp.AddKey(ConsoleKey.F1, ShowInfo);                
         lp.AddKey(ConsoleKey.Escape, Back);
-        lp.Select();    
+        lp.Select();
+        
 
     }
 }

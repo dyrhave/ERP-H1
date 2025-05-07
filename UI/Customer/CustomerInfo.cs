@@ -13,6 +13,10 @@ public class CustomerInfo : Screen
         Database.Instance?.DeleteProduct(cmp.CustomerId);
         Console.Clear();      
     }
+    void ShowEdit(Customer _)
+    {
+        Screen.Display(new CustomerEdit());
+    }
     
 
     protected override void Draw()
@@ -24,5 +28,6 @@ public class CustomerInfo : Screen
 
         lp.AddKey(ConsoleKey.Escape, Back);
         lp.AddKey(ConsoleKey.F5, Delete);
+        lp.AddKey(ConsoleKey.F2, ShowEdit);
     }
 }

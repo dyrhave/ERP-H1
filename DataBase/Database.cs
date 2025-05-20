@@ -1,10 +1,9 @@
-using System.Data.Entity;
-
 public partial class Database
 {
-    public static Database? Instance { get; set; }
-    public Database()
+    private static Database? _instance;
+    public static Database Instance => _instance ??= new Database();
+    private Database()
     {
-        Instance ??= this;
+        // Connection string to db
     }
 }

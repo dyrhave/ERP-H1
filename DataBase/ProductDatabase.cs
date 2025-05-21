@@ -1,3 +1,5 @@
+using Microsoft.Data.SqlClient;
+
 public partial class Database
 {
     List<Product> products = new();
@@ -15,7 +17,34 @@ public partial class Database
     }
     public Product[] GetProduct()
     {
-        return products.ToArray();
+        List<Product> productsList = new();
+        using (SqlConnection connection = new())
+        {
+            connection.Open();
+            string queryString = "SELECT * FROM Products";
+            using (SqlCommand command = new(queryString, connection))
+            {
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        Product product = new()
+                        {
+                            ProductId = reader.GetInt32(0),
+                            Name = reader.GetString(1),
+                            Description = reader.GetString(2),
+                            Price = reader.GetDecimal(3),
+                            BuyInPrice = reader.GetDecimal(4),
+                            Quantity = reader.GetInt32(5),
+                            Location = reader.GetString(6),
+                            Unit = reader.GetString(7)
+                        };
+                        productsList.Add(product);
+                    }
+                }
+            }
+        }
+        return productsList.ToArray();
     }
 
     public void AddProduct(Product product)
@@ -49,6 +78,6 @@ public partial class Database
     {
         Product? product = GetProductById(id);
         if (product != null)
-        products.Remove(product);
+            products.Remove(product);
     }
 }

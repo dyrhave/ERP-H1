@@ -1,4 +1,4 @@
-using TECHCOOL.UI;
+using Microsoft.Data.SqlClient;
 
 public partial class Database
 {
@@ -17,7 +17,33 @@ public partial class Database
     }
     public SalesOrder[] GetSales()
     {
-        return sales.ToArray();
+        List<SalesOrder> salesList = new();
+        using (SqlConnection connection = GetConnection())
+        {
+            connection.Open();
+            string queryString = "SELECT * FROM SalesOrders";
+            using (SqlCommand command = new(queryString, connection))
+            {
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        SalesOrder sale = new()
+                        {
+                            OrderId = reader.GetInt32(0),
+                            Created = reader.GetString(1),
+                            OrderCompleted = reader.GetString(2),
+                            OrderCompletedTime = reader.GetString(3),
+                            CustomerId = reader.GetInt32(4),
+                            State = reader.GetString(5),
+                            OrderItems = new List<Product>()
+                        };
+                        salesList.Add(sale);
+                    }
+                }
+            }
+        }
+        return salesList.ToArray();
     }
 
     public void AddSale(SalesOrder sale)

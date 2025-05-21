@@ -1,3 +1,5 @@
+using Microsoft.Data.SqlClient;
+
 public partial class Database
 {
     private List<Customer> _customers = new List<Customer>();
@@ -16,7 +18,36 @@ public partial class Database
 
     public Customer[] GetCustomers()
     {
-        return _customers.ToArray();
+        List<Customer> customerList = new();
+        using (SqlConnection connection = new())
+        {
+            connection.Open();
+            string queryString = "SELECT * FROM Customers";
+            using (SqlCommand command = new(queryString, connection))
+            {
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        Customer customer = new()
+                        {
+                            CustomerId = reader.GetInt32(0),
+                            FirstName = reader.GetString(1),
+                            LastName = reader.GetString(2),
+                            Email = reader.GetString(3),
+                            Phone = reader.GetString(4),
+                            Street = reader.GetString(5),
+                            StreetNumber = reader.GetString(6),
+                            City = reader.GetString(7),
+                            Country = reader.GetString(8),
+                            PostCode = reader.GetString(9)
+                        };
+                        customerList.Add(customer);
+                    }
+                }
+            }
+        }
+        return customerList.ToArray();
     }
 
     public void AddCustomer(Customer c)

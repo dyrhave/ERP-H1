@@ -1,3 +1,5 @@
+using Microsoft.Data.SqlClient;
+
 public partial class Database
 {
     List<Company> companies = new();
@@ -15,7 +17,34 @@ public partial class Database
     }
     public Company[] GetCompany()
     {
-        return companies.ToArray();
+        List<Company> companyList = new();
+        using (SqlConnection connection = GetConnection())
+        {
+            connection.Open();
+            string queryString = "SELECT * FROM Companies";
+            using (SqlCommand command = new(queryString, connection))
+            {
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        Company company = new()
+                        {
+                            CompanyId = reader.GetInt32(0),
+                            Name = reader.GetString(1),
+                            Street = reader.GetString(2),
+                            StreetNumber = reader.GetString(3),
+                            City = reader.GetString(4),
+                            Contry = reader.GetString(5),
+                            PostCode = reader.GetString(6),
+                            Currency = (Currency)Enum.Parse(typeof(Currency), reader.GetString(7))
+                        };
+                        companyList.Add(company);
+                    }
+                }
+            }
+        }
+        return companyList.ToArray();
     }
 
     public void AddCompany(Company company)

@@ -1,5 +1,3 @@
-using Org.BouncyCastle.Tls.Crypto.Impl.BC;
-
 public class SalesOrder
 {
     public int OrderId { get; set; }

@@ -15,7 +15,7 @@ public partial class Database
         return null;
 
     }
-    public Product[] GetProduct()
+    public Product[] GetProduct() // Temporary structure - fix when database is implemented
     {
         List<Product> productsList = new();
         using (SqlConnection connection = new())

@@ -16,7 +16,7 @@ public partial class Database
         return null;
     }
 
-    public Customer[] GetCustomers()
+    public Customer[] GetCustomers() // Temporary structure - fix when database is implemented
     {
         List<Customer> customerList = new();
         using (SqlConnection connection = new())

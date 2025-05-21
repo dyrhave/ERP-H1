@@ -15,7 +15,7 @@ public partial class Database
         return null;
 
     }
-    public SalesOrder[] GetSales()
+    public SalesOrder[] GetSales() // Temporary structure - fix when database is implemented
     {
         List<SalesOrder> salesList = new();
         using (SqlConnection connection = GetConnection())

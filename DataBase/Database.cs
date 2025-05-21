@@ -11,7 +11,7 @@ public partial class Database
         // Singleton constructor
     }
 
-    public SqlConnection GetConnection()
+    public SqlConnection GetConnection() // Temporary structure - fix when database is implemented
     {
         SqlConnectionStringBuilder sb = new();
         sb.DataSource = "localhost";

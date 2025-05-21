@@ -15,7 +15,7 @@ public partial class Database
         return null;
 
     }
-    public Company[] GetCompany()
+    public Company[] GetCompany() // Temporary structure - fix when database is implemented
     {
         List<Company> companyList = new();
         using (SqlConnection connection = GetConnection())

@@ -17,7 +17,7 @@ public class CompanyEdit : Screen
         editor.TextBox("StreetNumber", nameof(Company.StreetNumber));        
         editor.TextBox("PostalCode", nameof(Company.PostCode));        
         editor.TextBox("City", nameof(Company.City));
-        editor.TextBox("Contry", nameof(Company.Contry));        
+        editor.TextBox("Contry", nameof(Company.Country));        
         editor.SelectBox("Currency", nameof(Company.Currency));
         editor.AddOption("Currency","USD", Currency.USD);
         editor.AddOption("Currency", "EUR", Currency.EUR);

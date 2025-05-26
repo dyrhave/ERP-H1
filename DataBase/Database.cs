@@ -15,9 +15,11 @@ public partial class Database
     {
         SqlConnectionStringBuilder sb = new();
         sb.DataSource = "localhost";
-        sb.InitialCatalog = "database";
-        sb.UserID = "bruger";
-        sb.Password = "nogethemmeligt";
+        sb.InitialCatalog = "LNE_Security_ERP";
+        sb.UserID = "remo";
+        sb.Password = "Test123";
+        sb.Encrypt = true;
+        sb.TrustServerCertificate = true;
 
         string connectionString = sb.ConnectionString;
         return new SqlConnection(connectionString);

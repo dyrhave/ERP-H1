@@ -23,7 +23,7 @@ public class CompanyListPage : Screen
        
         ListPage<Company> lp = new();
         lp.AddColumn("Name", nameof(Company.Name));
-        lp.AddColumn("Country", nameof(Company.Contry));
+        lp.AddColumn("Country", nameof(Company.Country));
         lp.AddColumn("Currency", nameof(Company.Currency));
 
         lp.Add(Database.Instance.GetCompany());

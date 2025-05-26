@@ -21,7 +21,7 @@ public partial class Database
         using (SqlConnection connection = GetConnection())
         {
             connection.Open();
-            string queryString = "SELECT * FROM Companies";
+            string queryString = "SELECT * FROM CompanyDatabase";
             using (SqlCommand command = new(queryString, connection))
             {
                 using (SqlDataReader reader = command.ExecuteReader())
@@ -35,7 +35,7 @@ public partial class Database
                             Street = reader.GetString(2),
                             StreetNumber = reader.GetString(3),
                             City = reader.GetString(4),
-                            Contry = reader.GetString(5),
+                            Country = reader.GetString(5),
                             PostCode = reader.GetString(6),
                             Currency = (Currency)Enum.Parse(typeof(Currency), reader.GetString(7))
                         };
@@ -48,13 +48,32 @@ public partial class Database
     }
 
     public void AddCompany(Company company)
+{
+    using SqlConnection conn = GetConnection();
+    conn.Open();
+
+    string sql = @"
+        INSERT INTO CompanyDatabase (Name, Street, StreetNumber, City, Country, Currency, PostCode)
+        VALUES (@Name, @Street, @StreetNumber, @City, @Country, @Currency, @PostCode);
+        SELECT SCOPE_IDENTITY();
+    ";
+
+    using SqlCommand cmd = new SqlCommand(sql, conn);
+    cmd.Parameters.AddWithValue("@Name", company.Name);
+    cmd.Parameters.AddWithValue("@Street", company.Street);
+    cmd.Parameters.AddWithValue("@StreetNumber", company.StreetNumber);
+    cmd.Parameters.AddWithValue("@City", company.City);
+    cmd.Parameters.AddWithValue("@Country", company.Country); 
+    cmd.Parameters.AddWithValue("@Currency", company.Currency.ToString()); 
+    cmd.Parameters.AddWithValue("@PostCode", company.PostCode);
+
+  
+    object result = cmd.ExecuteScalar();
+    if (result != null && int.TryParse(result.ToString(), out int newId))
     {
-        if (company.CompanyId == 0)
-        {
-            companies.Add(company);
-            company.CompanyId = companies.Count;
-        }
+        company.CompanyId = newId;
     }
+}
     public void UpdateCompany(Company company)
     {
         if (company.CompanyId == 0)
@@ -70,7 +89,7 @@ public partial class Database
         oldCompany.Street = company.Street;
         oldCompany.StreetNumber = company.StreetNumber;
         oldCompany.City = company.City;
-        oldCompany.Contry = company.Contry;
+        oldCompany.Country = company.Country;
     }
     public void DeleteCompany(int id)
     {

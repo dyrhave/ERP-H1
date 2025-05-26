@@ -28,7 +28,7 @@ public class CompanyInfo : Screen
         lp.AddColumn("StreetNumber", nameof(Company.StreetNumber));
         lp.AddColumn("Postcode", nameof(Company.PostCode));
         lp.AddColumn("City", nameof(Company.City));
-        lp.AddColumn("Country", nameof(Company.Contry));
+        lp.AddColumn("Country", nameof(Company.Country));
         lp.AddColumn("Currency", nameof(Company.Currency));
         
         

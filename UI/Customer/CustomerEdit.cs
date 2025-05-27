@@ -3,10 +3,7 @@ using TECHCOOL.UI;
 public class CustomerEdit : Screen
 {
     public override string Title { get; set; } = "Edit Customer";
-    void Back(Customer _)
-    {        
-        Quit();       
-    }
+    
     protected override void Draw()
     {
         Clear();

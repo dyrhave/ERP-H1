@@ -19,13 +19,13 @@ public partial class Database
         }
     }
 
-    private SqlConnection GetConnection() // Temporary structure - fix when database is implemented
+    public SqlConnection GetConnection() // Temporary structure - fix when database is implemented
     {
         SqlConnectionStringBuilder sb = new();
-        sb.DataSource = "localhost";
+        sb.DataSource = "DESKTOP-0PBVOB5";
         sb.InitialCatalog = "LNE_Security_ERP";
-        sb.UserID = "remo";
-        sb.Password = "Test123";
+        sb.UserID = "GruppeMR";
+        sb.Password = "Pass123";
         sb.Encrypt = true;
         sb.TrustServerCertificate = true;
 

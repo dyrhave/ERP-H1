@@ -14,14 +14,18 @@ public class CompanyInfo : Screen
     {        
         Quit();       
     }
-    void ShowEdit(Company _)
+    void ShowEdit(Company Cmp)
     {
-        Screen.Display(new CompanyEdit());
+        Screen.Display(new CompanyEdit(Cmp));
+    }
+    void ShowAdd(Company _)
+    {
+        Screen.Display(new CompanyAdd());
     }
 
     protected override void Draw()
     {
-        
+
         ListPage<Company> lp = new();
         lp.AddColumn("Name", nameof(Company.Name));
         lp.AddColumn("Street", nameof(Company.Street));
@@ -30,11 +34,12 @@ public class CompanyInfo : Screen
         lp.AddColumn("City", nameof(Company.City));
         lp.AddColumn("Country", nameof(Company.Country));
         lp.AddColumn("Currency", nameof(Company.Currency));
-        
-        
+
+
 
         lp.Add(Database.Instance?.GetCompany());
         lp.AddKey(ConsoleKey.F2, ShowEdit);
+        lp.AddKey(ConsoleKey.F3, ShowAdd);
         lp.AddKey(ConsoleKey.F5, Delete);
         lp.AddKey(ConsoleKey.Escape, Back);
         lp.Select();

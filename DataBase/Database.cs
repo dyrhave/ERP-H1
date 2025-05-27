@@ -5,13 +5,21 @@ public partial class Database
     private static Database? _instance;
 
     public static Database Instance => _instance ??= new Database();
-    
+
     private Database()
     {
-        // Singleton constructor
+        try
+        {
+            using SqlConnection connection = GetConnection();
+            connection.Open();
+        }
+        catch (SqlException ex)
+        {
+            Console.WriteLine("Database connection failed: " + ex.Message);
+        }
     }
 
-    public SqlConnection GetConnection() // Temporary structure - fix when database is implemented
+    private SqlConnection GetConnection() // Temporary structure - fix when database is implemented
     {
         SqlConnectionStringBuilder sb = new();
         sb.DataSource = "localhost";

@@ -66,6 +66,8 @@ public partial class Database
     cmd.Parameters.AddWithValue("@Country", company.Country); 
     cmd.Parameters.AddWithValue("@Currency", company.Currency.ToString()); 
     cmd.Parameters.AddWithValue("@PostCode", company.PostCode);
+    
+    
 
   
     object result = cmd.ExecuteScalar();
@@ -76,27 +78,39 @@ public partial class Database
 }
     public void UpdateCompany(Company company)
     {
-        if (company.CompanyId == 0)
-        {
-            return;
-        }
-        Company? oldCompany = GetCompanyById(company.CompanyId);
-        if (oldCompany == null)
-        {
-            return;
-        }
-        oldCompany.Name = company.Name;
-        oldCompany.Street = company.Street;
-        oldCompany.StreetNumber = company.StreetNumber;
-        oldCompany.City = company.City;
-        oldCompany.Country = company.Country;
+        using SqlConnection conn = GetConnection();
+        conn.Open();
+
+        string sql = @"
+            UPDATE CompanyDatabase
+            SET Name = @Name, Street = @Street, StreetNumber = @StreetNumber, City = @City, Country = @Country, Currency = @Currency, PostCode = @PostCode
+            WHERE CompanyId = @CompanyId;
+        ";
+
+        using SqlCommand cmd = new SqlCommand(sql, conn);
+        cmd.Parameters.AddWithValue("@CompanyId", company.CompanyId);
+        cmd.Parameters.AddWithValue("@Name", company.Name);
+        cmd.Parameters.AddWithValue("@Street", company.Street);
+        cmd.Parameters.AddWithValue("@StreetNumber", company.StreetNumber);
+        cmd.Parameters.AddWithValue("@City", company.City);
+        cmd.Parameters.AddWithValue("@Country", company.Country);
+        cmd.Parameters.AddWithValue("@Currency", company.Currency.ToString());
+        cmd.Parameters.AddWithValue("@PostCode", company.PostCode);
+
+        cmd.ExecuteNonQuery();
     }
     public void DeleteCompany(int id)
     {
-        Company? company = GetCompanyById(id);
-        if (company != null)
-        {
-            companies.Remove(company);
-        }
+        using SqlConnection conn = GetConnection();
+        conn.Open();
+
+        string sql = "DELETE FROM CompanyDatabase WHERE CompanyId = @CompanyId";
+        using SqlCommand cmd = new SqlCommand(sql, conn);
+        cmd.Parameters.AddWithValue("@CompanyId", id);
+
+        cmd.ExecuteNonQuery();
+        
+        
+        companies.RemoveAll(c => c.CompanyId == id);
     }
 }

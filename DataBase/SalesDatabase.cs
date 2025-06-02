@@ -18,57 +18,86 @@ public partial class Database
     public SalesOrder[] GetSales() // Temporary structure - fix when database is implemented
     {
         List<SalesOrder> salesList = new();
-        using (SqlConnection connection = GetConnection())
+        SqlConnection connection = GetConnection();
+            
+        string queryString = "SELECT * FROM SalesDatabase";
+        using (SqlCommand command = new(queryString, connection))
         {
-            connection.Open();
-            string queryString = "SELECT * FROM SalesOrders";
-            using (SqlCommand command = new(queryString, connection))
+            using (SqlDataReader reader = command.ExecuteReader())
             {
-                using (SqlDataReader reader = command.ExecuteReader())
+                while (reader.Read())
                 {
-                    while (reader.Read())
+                    SalesOrder sale = new()
                     {
-                        SalesOrder sale = new()
-                        {
-                            OrderId = reader.GetInt32(0),
-                            Created = reader.GetString(1),
-                            OrderCompleted = reader.GetString(2),
-                            OrderCompletedTime = reader.GetString(3),
-                            CustomerId = reader.GetInt32(4),
-                            State = reader.GetString(5),
-                            OrderItems = new List<Product>()
-                        };
-                        salesList.Add(sale);
-                    }
+                        OrderId = reader.GetInt32(0),
+                        Created = reader.GetString(1),
+                        OrderCompleted = reader.GetString(2),
+                        OrderCompletedTime = reader.GetString(3),
+                        CustomerId = reader.GetInt32(4),
+                        State = reader.GetString(5),
+                        OrderItems = new List<Product>()
+                    };
+                    salesList.Add(sale);
                 }
             }
         }
-        return salesList.ToArray();
+    return salesList.ToArray();
     }
 
     public void AddSale(SalesOrder sale)
     {
-        if (sale.OrderId == 0)
+        SqlConnection connection = GetConnection();
+
+        string queryString = "INSERT INTO SalesDatabase (Created, OrderCompleted, OrderCompletedTime, CustomerId, State) " +
+                             "VALUES (@Created, @OrderCompleted, @OrderCompletedTime, @CustomerId, @State); " +
+                             "SELECT SCOPE_IDENTITY();";
+
+        using (SqlCommand command = new(queryString, connection))
         {
-            sales.Add(sale);
-            sale.OrderId = sales.Count;
+            command.Parameters.AddWithValue("@Created", sale.Created);
+            command.Parameters.AddWithValue("@OrderCompleted", sale.OrderCompleted);
+            command.Parameters.AddWithValue("@OrderCompletedTime", sale.OrderCompletedTime);
+            command.Parameters.AddWithValue("@CustomerId", sale.CustomerId);
+            command.Parameters.AddWithValue("@State", sale.State);
+
+            try
+            {
+                command.ExecuteNonQuery();
+            }
+            catch (SqlException ex)
+            {
+                Console.WriteLine($"Error adding sale: {ex.Message}");
+                throw;
+            }
         }
     }
     public void UpdateSale(SalesOrder sale)
     {
-        if (sale.OrderId == 0)
+        SqlConnection connection = GetConnection();
+
+        string queryString = "UPDATE SalesDatabase SET Created = @Created, OrderCompleted = @OrderCompleted, " +
+                             "OrderCompletedTime = @OrderCompletedTime, CustomerId = @CustomerId, State = @State " +
+                             "WHERE OrderId = @OrderId;";
+
+        using (SqlCommand command = new(queryString, connection))
         {
-            return;
+            command.Parameters.AddWithValue("@OrderId", sale.OrderId);
+            command.Parameters.AddWithValue("@Created", sale.Created);
+            command.Parameters.AddWithValue("@OrderCompleted", sale.OrderCompleted);
+            command.Parameters.AddWithValue("@OrderCompletedTime", sale.OrderCompletedTime);
+            command.Parameters.AddWithValue("@CustomerId", sale.CustomerId);
+            command.Parameters.AddWithValue("@State", sale.State);
+
+            try
+            {
+                command.ExecuteNonQuery();
+            }
+            catch (SqlException ex)
+            {
+                Console.WriteLine($"Error updating sale: {ex.Message}");
+                throw;
+            }
         }
-        SalesOrder? oldsale = GetSaleById(sale.OrderId);
-        if (oldsale == null)
-        {
-            return;
-        }
-        oldsale.OrderId = sale.OrderId;
-        oldsale.OrderItems = sale.OrderItems;
-        oldsale.State = sale.State;
-        //sprøg simmon omkring S1 update
         
     }
     public void DeleteSale(int id)

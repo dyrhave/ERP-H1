@@ -6,12 +6,15 @@ public class CustomerListPage : Screen
 
     void ShowInfo(Customer _)
     {
-        Screen.Display(new CustomerInfo());
+        Display(new CustomerInfo());
     }
-
-    
+ 
+    void ShowAdd(Customer _)
+    {
+        Display(new CustomerAdd());
+    }
    
-     void Back(Customer _)
+    void Back(Customer _)
     {        
         Quit();       
     }
@@ -28,6 +31,7 @@ public class CustomerListPage : Screen
 
         lp.AddKey(ConsoleKey.F1, ShowInfo);                
         lp.AddKey(ConsoleKey.Escape, Back);
+        lp.AddKey(ConsoleKey.F3, ShowAdd);
         lp.Select();
     }
 }

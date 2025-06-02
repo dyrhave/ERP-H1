@@ -6,7 +6,17 @@ public class SalesOrderList : Screen
 
     void ShowInfo(SalesOrder so)
     {
-        Screen.Display(new SalesInfo());
+        Display(new SalesInfo());
+    }
+
+    // void showAdd(SalesOrder so)
+    // {
+    //     Display(new SalesAdd());
+    // }
+    
+    void Back(SalesOrder so)
+    {
+        Quit();
     }
 
     protected override void Draw()
@@ -19,9 +29,11 @@ public class SalesOrderList : Screen
         lp.AddColumn("Price", nameof(SalesOrder.TotalPrice));
 
         lp.Add(Database.Instance?.GetSales());
-        
-        lp.AddKey(ConsoleKey.F1, ShowInfo);                
-        lp.Select();   
+
+        lp.AddKey(ConsoleKey.F1, ShowInfo);
+        lp.AddKey(ConsoleKey.Escape, Back);
+        lp.Select();
+
 
     }
 }

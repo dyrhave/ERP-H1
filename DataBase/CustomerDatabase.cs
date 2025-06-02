@@ -19,31 +19,29 @@ public partial class Database
     public Customer[] GetCustomers() // Temporary structure - fix when database is implemented
     {
         List<Customer> customerList = new();
-        using (SqlConnection connection = new())
+        SqlConnection connection = GetConnection();
+        
+        string queryString = "SELECT * FROM CustomerDatabase";
+        using (SqlCommand command = new(queryString, connection))
         {
-            connection.Open();
-            string queryString = "SELECT * FROM Customers";
-            using (SqlCommand command = new(queryString, connection))
+            using (SqlDataReader reader = command.ExecuteReader())
             {
-                using (SqlDataReader reader = command.ExecuteReader())
+                while (reader.Read())
                 {
-                    while (reader.Read())
+                    Customer customer = new()
                     {
-                        Customer customer = new()
-                        {
-                            CustomerId = reader.GetInt32(0),
-                            FirstName = reader.GetString(1),
-                            LastName = reader.GetString(2),
-                            Email = reader.GetString(3),
-                            Phone = reader.GetString(4),
-                            Street = reader.GetString(5),
-                            StreetNumber = reader.GetString(6),
-                            City = reader.GetString(7),
-                            Country = reader.GetString(8),
-                            PostCode = reader.GetString(9)
-                        };
-                        customerList.Add(customer);
-                    }
+                        CustomerId = reader.GetInt32(0),
+                        FirstName = reader.GetString(1),
+                        LastName = reader.GetString(2),
+                        Email = reader.GetString(3),
+                        Phone = reader.GetString(4),
+                        Street = reader.GetString(5),
+                        StreetNumber = reader.GetString(6),
+                        City = reader.GetString(7),
+                        Country = reader.GetString(8),
+                        PostCode = reader.GetString(9)
+                    };
+                    customerList.Add(customer);
                 }
             }
         }
@@ -52,34 +50,66 @@ public partial class Database
 
     public void AddCustomer(Customer c)
     {
-        if (c.CustomerId == 0)
+        SqlConnection connection = GetConnection();
+
+        string queryString = "INSERT INTO CustomerDatabase (FirstName, LastName, Email, Phone, Street, StreetNumber, City, Country, PostCode) " +
+                                "VALUES (@FirstName, @LastName, @Email, @Phone, @Street, @StreetNumber, @City, @Country, @PostCode); " +
+                                "SELECT SCOPE_IDENTITY();";
+
+        using (SqlCommand command = new(queryString, connection))
         {
-            _customers.Add(c);
-            c.CustomerId = _customers.Count;
+            command.Parameters.AddWithValue("@FirstName", c.FirstName);
+            command.Parameters.AddWithValue("@LastName", c.LastName);
+            command.Parameters.AddWithValue("@Email", c.Email);
+            command.Parameters.AddWithValue("@Phone", c.Phone);
+            command.Parameters.AddWithValue("@Street", c.Street);
+            command.Parameters.AddWithValue("@StreetNumber", c.StreetNumber);
+            command.Parameters.AddWithValue("@City", c.City);
+            command.Parameters.AddWithValue("@Country", c.Country);
+            command.Parameters.AddWithValue("@PostCode", c.PostCode);
+
+            try
+            {
+                command.ExecuteNonQuery();
+            }
+            catch (SqlException ex)
+            {
+                Console.WriteLine($"Error adding customer: {ex.Message}");
+                throw;
+            }
         }
     }
 
     public void UpdateCustomer(Customer c)
     {
-        if (c.CustomerId == 0)
+        SqlConnection connection = GetConnection();
+
+        string queryString = "UPDATE CustomerDatabase SET FirstName = @FirstName, LastName = @LastName, Email = @Email, " +
+                             "Phone = @Phone, Street = @Street, StreetNumber = @StreetNumber, City = @City, " +
+                             "Country = @Country, PostCode = @PostCode WHERE CustomerId = @CustomerId";
+        using (SqlCommand command = new(queryString, connection))
         {
-            return;
+            command.Parameters.AddWithValue("@CustomerId", c.CustomerId);
+            command.Parameters.AddWithValue("@FirstName", c.FirstName);
+            command.Parameters.AddWithValue("@LastName", c.LastName);
+            command.Parameters.AddWithValue("@Email", c.Email);
+            command.Parameters.AddWithValue("@Phone", c.Phone);
+            command.Parameters.AddWithValue("@Street", c.Street);
+            command.Parameters.AddWithValue("@StreetNumber", c.StreetNumber);
+            command.Parameters.AddWithValue("@City", c.City);
+            command.Parameters.AddWithValue("@Country", c.Country);
+            command.Parameters.AddWithValue("@PostCode", c.PostCode);
+
+            try
+            {
+                command.ExecuteNonQuery();
+            }
+            catch (SqlException ex)
+            {
+                Console.WriteLine($"Error updating customer: {ex.Message}");
+                throw;
+            }
         }
-        
-        Customer? oldCustomer = GetCustomerById(c.CustomerId);
-        if (oldCustomer == null)
-        {
-            return;
-        }
-        oldCustomer.FirstName = c.FirstName;
-        oldCustomer.LastName = c.LastName;
-        oldCustomer.Email = c.Email;
-        oldCustomer.Phone = c.Phone;
-        oldCustomer.Street = c.Street;
-        oldCustomer.StreetNumber = c.StreetNumber;
-        oldCustomer.City = c.City;
-        oldCustomer.Country = c.Country;
-        oldCustomer.PostCode = c.PostCode;
     }
 
     public void DeleteCustomer(int id)

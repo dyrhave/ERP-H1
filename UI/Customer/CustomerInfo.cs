@@ -4,23 +4,29 @@ public class CustomerInfo : Screen
 {
     public override string Title { get; set; } = "Customer";
 
+    
+
+
     void Back(Customer _)
     {
         Quit();
     }
-    void Delete(Customer cmp)
+    void Delete(Customer cust)
     {
-        Database.Instance?.DeleteProduct(cmp.CustomerId);
+        Database.Instance?.DeleteCustomer(cust.CustomerId);
         Console.Clear();      
     }
-    void ShowEdit(Customer _)
-    {
-        Screen.Display(new CustomerEdit());
-    }
+    // void ShowEdit(Customer _)
+    // {
+    //     Display(new CustomerEdit(Customer selectedCustomer);
+    // }
     
+
 
     protected override void Draw()
     {
+        Clear();
+
         ListPage<Customer> lp = new();
         lp.AddColumn("Name", nameof(Customer.GetFullName));
         lp.AddColumn("Address", nameof(Customer.CustomerFullAddress));
@@ -28,6 +34,6 @@ public class CustomerInfo : Screen
 
         lp.AddKey(ConsoleKey.Escape, Back);
         lp.AddKey(ConsoleKey.F5, Delete);
-        lp.AddKey(ConsoleKey.F2, ShowEdit);
+        // lp.AddKey(ConsoleKey.F2, ShowEdit);
     }
 }

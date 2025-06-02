@@ -3,15 +3,25 @@ using Microsoft.Data.SqlClient;
 public partial class Database
 {
     private static Database? _instance;
+    private readonly SqlConnection _connection;
 
     public static Database Instance => _instance ??= new Database();
 
     private Database()
     {
+        SqlConnectionStringBuilder sb = new();
+        sb.DataSource = "DESKTOP-0PBVOB5";
+        sb.InitialCatalog = "LNE_Security_ERP";
+        sb.UserID = "GruppeMR";
+        sb.Password = "Pass123";
+        sb.Encrypt = true;
+        sb.TrustServerCertificate = true;
+
+        _connection = new SqlConnection(sb.ConnectionString);
+
         try
         {
-            using SqlConnection connection = GetConnection();
-            connection.Open();
+            _connection.Open();
         }
         catch (SqlException ex)
         {
@@ -19,17 +29,33 @@ public partial class Database
         }
     }
 
-    private SqlConnection GetConnection() // Temporary structure - fix when database is implemented
+    public SqlConnection GetConnection() 
     {
-        SqlConnectionStringBuilder sb = new();
-        sb.DataSource = "localhost";
-        sb.InitialCatalog = "LNE_Security_ERP";
-        sb.UserID = "remo";
-        sb.Password = "Test123";
-        sb.Encrypt = true;
-        sb.TrustServerCertificate = true;
-
-        string connectionString = sb.ConnectionString;
-        return new SqlConnection(connectionString);
+        if (_connection.State == System.Data.ConnectionState.Closed)
+        {
+            try
+            {
+                _connection.Open();
+            }
+            catch (SqlException ex)
+            {
+                Console.WriteLine("Failed to open database connection: " + ex.Message);
+                throw;
+            }
+        }
+        else if (_connection.State == System.Data.ConnectionState.Broken)
+        {
+            try
+            {
+                _connection.Close();
+                _connection.Open();
+            }
+            catch (SqlException ex)
+            {
+                Console.WriteLine("Failed to recover database connection: " + ex.Message);
+                throw;
+            }
+        }
+        return _connection;
     }
 }

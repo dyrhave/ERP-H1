@@ -102,8 +102,21 @@ public partial class Database
     }
     public void DeleteSale(int id)
     {
-        SalesOrder? sale = GetSaleById(id);
-        if (sale != null)
-        sales.Remove(sale);
+        SqlConnection connection = GetConnection();
+        string queryString = "DELETE FROM SalesDatabase WHERE OrderId = @OrderId;";
+        using (SqlCommand command = new(queryString, connection))
+        {
+            command.Parameters.AddWithValue("@OrderId", id);
+
+            try
+            {
+                command.ExecuteNonQuery();
+            }
+            catch (SqlException ex)
+            {
+                Console.WriteLine($"Error deleting sale: {ex.Message}");
+                throw;
+            }
+        }
     }
 }

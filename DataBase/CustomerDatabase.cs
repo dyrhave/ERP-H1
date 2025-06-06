@@ -114,10 +114,23 @@ public partial class Database
 
     public void DeleteCustomer(int id)
     {
-        Customer? customer = GetCustomerById(id);
-        if (customer != null)
+        SqlConnection connection = GetConnection();
+
+        string queryString = "DELETE FROM CustomerDatabase WHERE CustomerId = @CustomerId";
+        using (SqlCommand command = new(queryString, connection))
         {
-            _customers.Remove(customer);
+            command.Parameters.AddWithValue("@CustomerId", id);
+
+            try
+            {
+                command.ExecuteNonQuery();
+            }
+            catch (SqlException ex)
+            {
+                Console.WriteLine($"Error deleting customer: {ex.Message}");
+                throw;
+            }
         }
+        _customers.RemoveAll(c => c.CustomerId == id);
     }
 }

@@ -8,9 +8,13 @@ public class ProductDetailes : Screen
         Database.Instance?.DeleteProduct(cmp.ProductId);
         Console.Clear();      
     }
-    void ShowEdit(Product _)
+    void ShowEdit(Product cmp)
     {
-        Screen.Display(new ProductEdit());
+        Screen.Display(new ProductEdit(cmp));
+    }
+    void ShowAdd(Product _)
+    {
+        Screen.Display(new ProductAdd());
     }
     void Back(Product _)
     {        
@@ -36,9 +40,10 @@ public class ProductDetailes : Screen
         
 
         lp.Add(Database.Instance?.GetProduct());
-        lp.AddKey(ConsoleKey.Escape, Back);
+       lp.AddKey(ConsoleKey.F2, ShowEdit);
+        lp.AddKey(ConsoleKey.F3, ShowAdd);
         lp.AddKey(ConsoleKey.F5, Delete);
-        lp.AddKey(ConsoleKey.F2, ShowEdit);   
+        lp.AddKey(ConsoleKey.Escape, Back);
         lp.Select();
     }
 }

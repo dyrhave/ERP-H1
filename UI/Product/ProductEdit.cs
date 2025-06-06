@@ -2,28 +2,34 @@ using TECHCOOL.UI;
 
 public class ProductEdit : Screen
 {
-    public override string Title {get; set;} = "Edit Products";
-    void Back(Product _)
-    {        
-        Quit();       
+    Product _product;
+    public ProductEdit(Product product)
+    {
+        _product = product;
     }
+    public override string Title { get; set; } = "Edit Products";
+   
 
     protected override void Draw()
     {
-        Product product = new Product();
+        
         Form<Product> editor = new();
-        editor.IntBox("ProductId", nameof(Product.ProductId));
+        
         editor.TextBox("Name", nameof(Product.Name));
         editor.TextBox("Description", nameof(Product.Description));
-        editor.IntBox("Price", nameof(Product.Price));
-        editor.IntBox("BuyInPrice", nameof(Product.BuyInPrice));
-        editor.TextBox("Location", nameof(Product.Location));
-        editor.IntBox("Stock", nameof(Product.Quantity));
+        editor.AddField("Price", new DecimalBox(){ Title = "Price", Property = nameof(Product.Price) }); 
+        editor.AddField("BuyInPrice", new DecimalBox(){ Title = "BuyInPrice", Property = nameof(Product.BuyInPrice) });
+        editor.AddField("Quantity", new DecimalBox(){ Title = "Quantity", Property = nameof(Product.Quantity) });
+        editor.TextBox("Location", nameof(Product.Location));        
         editor.TextBox("Unit", nameof(Product.Unit));
-        editor.Edit(product);
+        
 
         
-        Quit();
+        if (editor.Edit(_product))
+    {
+      Database.Instance.UpdateProduct(_product);
+      Quit();
+    }
 
         // Screen.AddKey(ConsoleKey.Escape, Back);
     }

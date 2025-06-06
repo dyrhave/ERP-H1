@@ -18,11 +18,11 @@ public partial class Database
     public Product[] GetProduct() // Temporary structure - fix when database is implemented
     {
         List<Product> productsList = new();
-        using (SqlConnection connection = new())
-        {
-            connection.Open();
-            string queryString = "SELECT * FROM Products";
-            using (SqlCommand command = new(queryString, connection))
+        SqlConnection conn = GetConnection();
+        
+            
+            string queryString = "SELECT * FROM ProductDatabase";
+            using (SqlCommand command = new(queryString, conn))
             {
                 using (SqlDataReader reader = command.ExecuteReader())
                 {
@@ -35,7 +35,7 @@ public partial class Database
                             Description = reader.GetString(2),
                             Price = reader.GetDecimal(3),
                             BuyInPrice = reader.GetDecimal(4),
-                            Quantity = reader.GetInt32(5),
+                            Quantity = reader.GetDecimal(5),
                             Location = reader.GetString(6),
                             Unit = reader.GetString(7)
                         };
@@ -43,41 +43,73 @@ public partial class Database
                     }
                 }
             }
-        }
+        
         return productsList.ToArray();
     }
 
     public void AddProduct(Product product)
     {
-        if (product.ProductId == 0)
+        SqlConnection conn = GetConnection();
+
+        string sql = @"
+        INSERT INTO ProductDatabase (Name, Description, Price, BuyInPrice, Quantity, Location, Unit)
+        VALUES (@Name, @Description, @Price, @BuyInPrice, @Quantity, @Location, @Unit);
+        SELECT SCOPE_IDENTITY();
+    ";
+
+        using SqlCommand cmd = new SqlCommand(sql, conn);
+        cmd.Parameters.AddWithValue("@Name", product.Name);
+        cmd.Parameters.AddWithValue("@Description", product.Description);
+        cmd.Parameters.AddWithValue("@Price", product.Price);
+        cmd.Parameters.AddWithValue("@BuyInPrice", product.BuyInPrice);
+        cmd.Parameters.AddWithValue("@Quantity", product.Quantity);
+        cmd.Parameters.AddWithValue("@Location", product.Location.ToString());
+        cmd.Parameters.AddWithValue("@Unit", product.Unit);
+
+
+
+
+        object result = cmd.ExecuteScalar();
+        if (result != null && int.TryParse(result.ToString(), out int newId))
         {
-            products.Add(product);
-            product.ProductId = products.Count;
+            product.ProductId = newId;
         }
     }
     public void UpdateProduct(Product product)
     {
-        if (product.ProductId == 0)
-        {
-            return;
-        }
-        Product? oldproduct = GetProductById(product.ProductId);
-        if (oldproduct == null)
-        {
-            return;
-        }
-        oldproduct.Name = product.Name;
-        oldproduct.Description = product.Description;
-        oldproduct.Price = product.Price;
-        oldproduct.BuyInPrice = product.BuyInPrice;
-        oldproduct.Quantity = product.Quantity;
-        oldproduct.Location = product.Location;
-        oldproduct.Unit = product.Unit;
+        SqlConnection conn = GetConnection();
+
+
+        string sql = @"
+            UPDATE ProductDatabase
+            SET Name = @Name, Description = @Description, Price = @Price, BuyInPrice = @BuyInPrice, Quantity = @Quantity, Location = @Location, Unit = @Unit
+            WHERE ProductId = @ProductId;
+        ";
+
+        using SqlCommand cmd = new SqlCommand(sql, conn);
+        cmd.Parameters.AddWithValue("@ProductId", product.ProductId);
+        cmd.Parameters.AddWithValue("@Name", product.Name);
+        cmd.Parameters.AddWithValue("@Description", product.Description);
+        cmd.Parameters.AddWithValue("@Price", product.Price);
+        cmd.Parameters.AddWithValue("@BuyInPrice", product.BuyInPrice);
+        cmd.Parameters.AddWithValue("@Quantity", product.Quantity);
+        cmd.Parameters.AddWithValue("@Location", product.Location.ToString());
+        cmd.Parameters.AddWithValue("@Unit", product.Unit);
+
+        cmd.ExecuteNonQuery();
     }
     public void DeleteProduct(int id)
     {
-        Product? product = GetProductById(id);
-        if (product != null)
-            products.Remove(product);
+        SqlConnection conn = GetConnection();
+
+
+        string sql = "DELETE FROM ProductDatabase WHERE ProductId = @ProductId";
+        using SqlCommand cmd = new SqlCommand(sql, conn);
+        cmd.Parameters.AddWithValue("@ProductId", id);
+
+        cmd.ExecuteNonQuery();
+
+
+        companies.RemoveAll(c => c.CompanyId == id);
     }
 }

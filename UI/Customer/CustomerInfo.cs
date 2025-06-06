@@ -23,7 +23,7 @@ public class CustomerInfo : Screen
     {
         ListPage<Customer> lp = new();
         lp.AddColumn("Name", nameof(Customer.FullName));
-        lp.AddColumn("Address", nameof(Customer.CustomerFullAddress));
+        lp.AddColumn("Address", nameof(Customer.FullAddress));
         lp.AddColumn("Latest Purchase", nameof(Customer.LastPurchaseDate));
 
         lp.Add(Database.Instance?.GetCustomers());

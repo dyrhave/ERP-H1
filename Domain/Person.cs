@@ -14,8 +14,14 @@ public abstract class Person
     // method to return the full name 
     public string FullName => $"{FirstName} {LastName}";
 
-    public string CustomerFullAddress()
+    /*public string CustomerFullAddress()
     {
         return $"{Street} {StreetNumber}, {City}, {PostCode}, {Country}";
+    }*/
+    public string FullAddress {
+        get
+        {
+            return $"{Street} {StreetNumber}, {City}, {PostCode}, {Country}";
+        }
     }
 }

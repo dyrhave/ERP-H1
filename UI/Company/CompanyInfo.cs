@@ -18,10 +18,7 @@ public class CompanyInfo : Screen
     {
         Screen.Display(new CompanyEdit(Cmp));
     }
-    void ShowAdd(Company _)
-    {
-        Screen.Display(new CompanyAdd());
-    }
+    
 
     protected override void Draw()
     {
@@ -38,8 +35,7 @@ public class CompanyInfo : Screen
 
 
         lp.Add(Database.Instance?.GetCompany());
-        lp.AddKey(ConsoleKey.F2, ShowEdit);
-        lp.AddKey(ConsoleKey.F3, ShowAdd);
+        lp.AddKey(ConsoleKey.F2, ShowEdit);        
         lp.AddKey(ConsoleKey.F5, Delete);
         lp.AddKey(ConsoleKey.Escape, Back);
         lp.Select();

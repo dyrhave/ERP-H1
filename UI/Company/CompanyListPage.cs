@@ -9,7 +9,10 @@ public class CompanyListPage : Screen
     {
         Screen.Display(new CompanyInfo());
     }
-    
+    void ShowAdd(Company _)
+    {
+        Screen.Display(new CompanyAdd());
+    }
     
     void Back(Company _)
     {        
@@ -33,6 +36,7 @@ public class CompanyListPage : Screen
 
         lp.AddKey(ConsoleKey.F1, ShowInfo);
         lp.AddKey(ConsoleKey.Escape, Back);
+        lp.AddKey(ConsoleKey.F3, ShowAdd);
         lp.Select();
 
 

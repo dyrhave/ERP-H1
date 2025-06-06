@@ -12,10 +12,7 @@ public class ProductDetailes : Screen
     {
         Screen.Display(new ProductEdit(cmp));
     }
-    void ShowAdd(Product _)
-    {
-        Screen.Display(new ProductAdd());
-    }
+    
     void Back(Product _)
     {        
         Quit();       
@@ -40,8 +37,7 @@ public class ProductDetailes : Screen
         
 
         lp.Add(Database.Instance?.GetProduct());
-       lp.AddKey(ConsoleKey.F2, ShowEdit);
-        lp.AddKey(ConsoleKey.F3, ShowAdd);
+        lp.AddKey(ConsoleKey.F2, ShowEdit);        
         lp.AddKey(ConsoleKey.F5, Delete);
         lp.AddKey(ConsoleKey.Escape, Back);
         lp.Select();

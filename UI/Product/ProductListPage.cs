@@ -7,7 +7,10 @@ public class ProductListPage : Screen
     {
         Screen.Display(new ProductDetailes());
     }    
-    
+    void ShowAdd(Product _)
+    {
+        Screen.Display(new ProductAdd());
+    }
     void Back(Product _)
     {        
         Quit();       
@@ -27,7 +30,8 @@ public class ProductListPage : Screen
         
 
         lp.Add(Database.Instance?.GetProduct());
-        lp.AddKey(ConsoleKey.F1, ShowInfo);             
+        lp.AddKey(ConsoleKey.F1, ShowInfo);
+        lp.AddKey(ConsoleKey.F3, ShowAdd);             
         lp.AddKey(ConsoleKey.Escape, Back);
         lp.Select();
     }

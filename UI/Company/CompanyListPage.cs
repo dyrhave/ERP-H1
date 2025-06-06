@@ -15,24 +15,26 @@ public class CompanyListPage : Screen
     {        
         Quit();       
     }
+    
+    // void ShowAdd(Company _)
 
 
     protected override void Draw()
     {
-        
-       
+
+
         ListPage<Company> lp = new();
         lp.AddColumn("Name", nameof(Company.Name));
         lp.AddColumn("Country", nameof(Company.Country));
         lp.AddColumn("Currency", nameof(Company.Currency));
 
         lp.Add(Database.Instance.GetCompany());
-        
 
-        lp.AddKey(ConsoleKey.F1, ShowInfo);                
+
+        lp.AddKey(ConsoleKey.F1, ShowInfo);
         lp.AddKey(ConsoleKey.Escape, Back);
         lp.Select();
-        
+
 
     }
 }

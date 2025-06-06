@@ -1,7 +1,7 @@
 using TECHCOOL.UI;
 public class CompanyAdd : Screen
 {
-     public override string Title {get; set;} = "Add Company";
+    public override string Title {get; set;} = "Add Company";
     protected override void Draw()
     {
         Company company = new Company();

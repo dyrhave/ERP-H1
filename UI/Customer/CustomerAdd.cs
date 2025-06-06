@@ -4,16 +4,13 @@ using TECHCOOL.UI;
 
 public class CustomerAdd : Screen
 {
-
     public override string Title { get; set; } = "Add Customer";
-    
     
     protected override void Draw()
     {
-        Clear();
-        Customer c = new Customer();
+        Customer c = new();
         
-        Form<Customer> add = new Form<Customer>();
+        Form<Customer> add = new();
         add.TextBox("First Name", nameof(Customer.FirstName));
         add.TextBox("Last Name", nameof(Customer.LastName));
         add.TextBox("Email", nameof(Customer.Email));
@@ -28,7 +25,7 @@ public class CustomerAdd : Screen
         try
         {
             Database.Instance.AddCustomer(c);
-            Console.WriteLine($"Customer {c.GetFullName()} added successfully.");
+            Console.WriteLine($"Customer {c.FullName} added successfully.");
         }
         catch (Exception ex)
         {

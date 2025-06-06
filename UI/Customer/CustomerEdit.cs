@@ -3,7 +3,7 @@ using TECHCOOL.UI;
 public class CustomerEdit : Screen
 {
     public override string Title { get; set; } = "Edit Customer";
-    private Customer _customerToEdit;
+    Customer _customerToEdit;
 
     public CustomerEdit(Customer costumer)
     {
@@ -12,9 +12,7 @@ public class CustomerEdit : Screen
     
     protected override void Draw()
     {
-        Clear();
-
-        Form<Customer> editor = new Form<Customer>();
+        Form<Customer> editor = new();
         editor.TextBox("First Name", nameof(Customer.FirstName));
         editor.TextBox("Last Name", nameof(Customer.LastName));
         editor.TextBox("Email", nameof(Customer.Email));
@@ -29,7 +27,7 @@ public class CustomerEdit : Screen
         try
         {
             Database.Instance.UpdateCustomer(_customerToEdit);
-            Console.WriteLine($"Customer {_customerToEdit.GetFullName()} updated successfully.");
+            Console.WriteLine($"Customer {_customerToEdit.FullName} updated successfully.");
         }
         catch (Exception ex)
         {

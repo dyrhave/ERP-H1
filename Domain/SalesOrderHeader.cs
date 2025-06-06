@@ -9,13 +9,6 @@ public class SalesOrder
     public string State { get; set; } = "";
     public List<Product> OrderItems { get; set; } = new();
 
-    public decimal TotalPrice()
-    {
-        decimal totalPrice = 0;
-        foreach (var item in OrderItems)
-        {
-            totalPrice += item.Price * item.Quantity;
-        }
-        return totalPrice;
-    }
+    public decimal TotalPrice => OrderItems.Sum(item => item.Price * item.Quantity);
+    
 }

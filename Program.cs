@@ -1,22 +1,31 @@
-﻿using Org.BouncyCastle.Asn1.X509;
-using TECHCOOL.UI;
+﻿using TECHCOOL.UI;
 using Microsoft.Data.SqlClient;
 
-using var connection = Database.Instance.GetConnection();
 
- //Database.Instance?.AddCompany(new() {Name = "Test", Street = "Teset", StreetNumber = "1", City = "Test", Country = "Test", Currency = Currency.DKK, PostCode = "1234"});
-// Database.Instance?.AddCompany(new() {Name = "Test2", Street = "Teset2", StreetNumber = "2", City = "Test2", Contry = "Test2", Currency = Currency.EUR, PostCode = "1234"});
-// Database.Instance?.AddProduct(new() { Name = "Test", Quantity = 10,BuyInPrice = 5, Price = 10,});
+try 
+{
+    // Connect to the database
+    var connection = Database.Instance.GetConnection();
+    Console.WriteLine("Database connection successful!");
 
-CompanyListPage companylistpage = new();
-ProductListPage productlistpage = new();
-CustomerListPage customerlistPage = new();
-SalesOrderList salesOrderList = new();
+    // Initialize UI components
+    CompanyListPage companylistpage = new();
+    ProductListPage productlistpage = new();
+    CustomerListPage customerlistPage = new();
+    SalesOrderList salesOrderList = new();
 
-
-Menu mainMenu = new();
-mainMenu.Add(companylistpage);
-mainMenu.Add(productlistpage);
-mainMenu.Add(customerlistPage);
-mainMenu.Add(salesOrderList);
-Screen.Display(mainMenu);
+    // Set up main menu
+    Menu mainMenu = new();
+    mainMenu.Add(companylistpage);
+    mainMenu.Add(productlistpage);
+    mainMenu.Add(customerlistPage);
+    mainMenu.Add(salesOrderList);
+    
+    // Display the menu
+    Screen.Display(mainMenu);
+}
+catch (Exception ex)
+{
+    Console.WriteLine($"An error occurred: {ex.Message}");
+    Console.WriteLine($"Stack trace: {ex.StackTrace}");
+}

@@ -4,9 +4,6 @@ public class CustomerInfo : Screen
 {
     public override string Title { get; set; } = "Customer";
 
-    
-
-
     void Back(Customer _)
     {
         Quit();
@@ -16,24 +13,24 @@ public class CustomerInfo : Screen
         Database.Instance?.DeleteCustomer(cust.CustomerId);
         Console.Clear();      
     }
-    // void ShowEdit(Customer _)
-    // {
-    //     Display(new CustomerEdit(Customer selectedCustomer);
-    // }
-    
+    void ShowEdit(Customer customer)
+    {
+        Display(new CustomerEdit(customer));
+    }
 
 
     protected override void Draw()
     {
-        Clear();
-
         ListPage<Customer> lp = new();
-        lp.AddColumn("Name", nameof(Customer.GetFullName));
+        lp.AddColumn("Name", nameof(Customer.FullName));
         lp.AddColumn("Address", nameof(Customer.CustomerFullAddress));
         lp.AddColumn("Latest Purchase", nameof(Customer.LastPurchaseDate));
 
+        lp.Add(Database.Instance?.GetCustomers());
+
         lp.AddKey(ConsoleKey.Escape, Back);
         lp.AddKey(ConsoleKey.F5, Delete);
-        // lp.AddKey(ConsoleKey.F2, ShowEdit);
+        lp.AddKey(ConsoleKey.F2, ShowEdit);
+        lp.Select();
     }
 }

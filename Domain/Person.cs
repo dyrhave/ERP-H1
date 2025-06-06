@@ -12,10 +12,7 @@ public abstract class Person
     public string LastPurchaseDate { get; set; } = "";
 
     // method to return the full name 
-    public string GetFullName()
-    {
-        return $"{FirstName} {LastName}";
-    }
+    public string FullName => $"{FirstName} {LastName}";
 
     public string CustomerFullAddress()
     {

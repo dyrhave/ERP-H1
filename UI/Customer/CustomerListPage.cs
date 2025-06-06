@@ -23,7 +23,7 @@ public class CustomerListPage : Screen
     {
         ListPage<Customer> lp = new();
         lp.AddColumn("CustomerId", nameof(Customer.CustomerId));
-        lp.AddColumn("Name", nameof(Person.FirstName)+" "+nameof(Person.LastName));
+        lp.AddColumn("Name", nameof(Person.FullName));
         lp.AddColumn("Phone", nameof(Person.Phone));
         lp.AddColumn("Email", nameof(Person.Email));
 

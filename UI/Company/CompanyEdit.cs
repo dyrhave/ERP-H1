@@ -29,7 +29,6 @@ public class CompanyEdit : Screen
     editor.AddOption("Currency", "SEK", Currency.SEK);
 
 
-    // gemmer ikke og man kan ikke se det gamle ting inde i editoren
 
 
     if (editor.Edit(_company))

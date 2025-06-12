@@ -14,16 +14,18 @@ public class CustomerAdd : Screen
         add.TextBox("First Name", nameof(Customer.FirstName));
         add.TextBox("Last Name", nameof(Customer.LastName));
         add.TextBox("Email", nameof(Customer.Email));
-        add.TextBox("Street", nameof(Customer.Street));
-        add.TextBox("Street Number", nameof(Customer.StreetNumber));
-        add.TextBox("City", nameof(Customer.City));
-        add.TextBox("PostCode", nameof(Customer.PostCode));
-        add.TextBox("Country", nameof(Customer.Country));
+        add.TextBox("Street", nameof(Address.Street));
+        add.TextBox("Street Number", nameof(Address.StreetNumber));
+        add.TextBox("City", nameof(Address.City));
+        add.TextBox("PostCode", nameof(Address.PostCode));
+        add.TextBox("Country", nameof(Address.Country));
 
         add.Edit(c);
 
         try
         {
+            Database.Instance.AddAddress(c.Address);
+            c.AddressId = c.Address.AddressId;
             Database.Instance.AddCustomer(c);
             Console.WriteLine($"Customer {c.FullName} added successfully.");
         }

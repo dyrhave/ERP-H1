@@ -136,8 +136,8 @@ public partial class Database
     }
     public void DeleteCompany(int id)
     {
-       SqlConnection conn = GetConnection();
-        
+        SqlConnection conn = GetConnection();
+
 
         string sql = "DELETE FROM CompanyDatabase WHERE CompanyId = @CompanyId";
         using SqlCommand cmd = new SqlCommand(sql, conn);

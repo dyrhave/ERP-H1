@@ -1,0 +1,83 @@
+USE master;
+GO
+
+CREATE DATABASE LNE_Security_ERP;
+GO
+
+USE LNE_Security_ERP;
+GO
+
+CREATE TABLE AddressDatabase (
+    AddressId INT IDENTITY(1,1) PRIMARY KEY,
+    Street NVARCHAR(255) NULL,
+    StreetNumber NVARCHAR(50) NULL,
+    City NVARCHAR(100) NULL,
+    Country NVARCHAR(100) NULL,
+    PostCode NVARCHAR(20) NULL
+);
+GO
+
+CREATE TABLE PersonDatabase (
+    PersonId INT IDENTITY(1,1) PRIMARY KEY,
+    FirstName NVARCHAR(100) NOT NULL,
+    LastName NVARCHAR(100) NOT NULL,
+    Street NVARCHAR(255) NULL,
+    StreetNumber NVARCHAR(50) NULL,
+    City NVARCHAR(100) NULL,
+    Country NVARCHAR(100) NULL,
+    PostCode NVARCHAR(20) NULL,
+    Email NVARCHAR(255) NULL,
+    Phone NVARCHAR(50) NULL
+);
+GO
+
+CREATE TABLE CompanyDatabase (
+    CompanyId INT IDENTITY(1,1) PRIMARY KEY,
+    Name NVARCHAR(255) NOT NULL,
+    AddressId INT NULL,
+    Currency NVARCHAR(3) NOT NULL CHECK (Currency IN ('DKK', 'SEK', 'USD', 'EUR')),
+    CONSTRAINT FK_Company_Address FOREIGN KEY (AddressId) REFERENCES AddressDatabase(AddressId)
+);
+GO
+
+CREATE TABLE CustomerDatabase (
+    CustomerId INT IDENTITY(1,1) PRIMARY KEY,
+    PersonId INT NOT NULL UNIQUE,
+    LastPurchaseDate DATE NULL,
+    CONSTRAINT FK_Customer_Person FOREIGN KEY (PersonId) REFERENCES PersonDatabase(PersonId)
+);
+GO
+
+CREATE TABLE ProductDatabase (
+    ProductId INT IDENTITY(1,1) PRIMARY KEY,
+    Name NVARCHAR(255) NOT NULL,
+    Description NVARCHAR(MAX) NULL,
+    Price DECIMAL(18, 2) NOT NULL,
+    BuyInPrice DECIMAL(18, 2) NOT NULL,
+    Quantity DECIMAL(18, 3) NOT NULL,
+    Location NVARCHAR(50) NULL,
+    Unit NVARCHAR(50) NULL
+);
+GO
+
+CREATE TABLE SalesDatabase (
+    OrderId INT IDENTITY(1,1) PRIMARY KEY,
+    Created DATETIME2 NOT NULL,
+    OrderCompleted DATETIME2 NULL,
+    CustomerId INT NOT NULL,
+    State NVARCHAR(50) NOT NULL CHECK (State IN ('Ingen', 'Oprettet', 'Bekræftet', 'Pakket', 'Færdig')),
+    OrderAmount DECIMAL(18, 2) NULL,
+    CONSTRAINT FK_SalesDatabase_Customer FOREIGN KEY (CustomerId) REFERENCES CustomerDatabase(CustomerId)
+);
+GO
+
+CREATE TABLE SalesOrderLineDatabase (
+    OrderLineId INT IDENTITY(1,1) PRIMARY KEY,
+    OrderId INT NOT NULL,
+    ProductId INT NOT NULL,
+    Quantity DECIMAL(18, 3) NOT NULL,
+    UnitPrice DECIMAL(18, 2) NOT NULL,
+    CONSTRAINT FK_SalesOrderLine_Sales FOREIGN KEY (OrderId) REFERENCES SalesDatabase(OrderId) ON DELETE CASCADE,
+    CONSTRAINT FK_SalesOrderLine_Product FOREIGN KEY (ProductId) REFERENCES ProductDatabase(ProductId)
+);
+GO

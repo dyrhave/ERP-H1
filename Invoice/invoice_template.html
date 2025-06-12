@@ -19,14 +19,14 @@
         </header>        <section class="customer-details">
             <div class="customer-block">
                 <h3>Bill to:</h3>
-                <p><strong>CustomerName</strong></p>
-                <p>CustomerAddress</p>
-                <p>Email: CustomerEmail</p>
+                <p><strong>{{CustomerName}}</strong></p>
+                <p>{{CustomerAddress}}</p>
+                <p>Email: {{CustomerEmail}}</p>
             </div>
             <div class="order-block">
                 <h3>Order Details:</h3>
-                <p><strong>Order #:</strong> OrderNumber</p>
-                <p><strong>Date:</strong> OrderDate</p>
+                <p><strong>Order #:</strong> {{OrderNumber}}</p>
+                <p><strong>Date:</strong> {{OrderDate}}</p>
             </div>
         </section>
 
@@ -41,20 +41,8 @@
                     </tr>
                 </thead>
                 <tbody id="invoiceItems">
-                    <tr>
-                        <td>Item 1</td>
-                        <td>1</td>
-                        <td>DKK UnitPrice</td>
-                        <td>DKK Total</td>
-                    </tr>
-                    <tr>
-                        <td>Item 2</td>
-                        <td>2</td>
-                        <td>DKK UnitPrice</td>
-                        <td>DKK Total</td>
-                    </tr>
-                    <!-- Invoice items here -->
-                     </tbody>
+                    <!-- {{InvoiceItems}} -->
+                </tbody>
             </table>
         </section>
 
@@ -62,14 +50,14 @@
             <div class="totals-block">
                 <div class="total-row">
                     <span>Subtotal:</span>
-                    <strong>DKK Subtotal</strong>
+                    <strong>DKK {{Subtotal}}</strong>
                 </div>
                 <div class="total-row">
                     <span>VAT (25%):</span>
-                    <strong>DKK VAT</strong>
+                    <strong>DKK {{VATAmount}}</strong>
                 </div>
                 <div class="grand-total">
-                    Total Due: DKK{{GrandTotal}}
+                    Total Due: DKK {{GrandTotal}}
                 </div>
             </div>
         </section>

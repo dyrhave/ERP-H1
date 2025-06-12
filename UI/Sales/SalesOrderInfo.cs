@@ -11,9 +11,33 @@ public class SalesInfo : Screen
         Database.Instance?.DeleteSalesOrder(so.OrderId);
         Clear();
     }
+
     void ShowEdit(SalesOrderHeader so)
     {
         Display(new SalesOrderEdit(so));
+    }
+
+    void PrintInvoice(SalesOrderHeader so)
+    {
+        InvoiceGenerator invoiceGenerator = new InvoiceGenerator(Database.Instance);
+        string invoiceHtml = invoiceGenerator.GenerateInvoiceHtml(so.OrderId);
+        
+        string fileName = $"Invoice_Order_{so.OrderId}_{DateTime.Now:yyyyMMdd_HHmmss}.html";
+        string filePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), fileName);
+        
+        try
+        {
+            File.WriteAllText(filePath, invoiceHtml);
+            Console.WriteLine($"Invoice saved to {filePath}");
+            Console.WriteLine("Press any key to continue...");
+            Console.ReadKey();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error saving invoice: {ex.Message}");
+            Console.WriteLine("Press any key to continue...");
+            Console.ReadKey();
+        }
     }
     
 
@@ -27,10 +51,10 @@ public class SalesInfo : Screen
         lp.AddColumn("State", nameof(SalesOrderHeader.State));
 
         lp.Add(Database.Instance?.GetSalesOrders());
-
         lp.AddKey(ConsoleKey.Escape, Back);
         lp.AddKey(ConsoleKey.F5, Delete);
         lp.AddKey(ConsoleKey.F2, ShowEdit);
+        lp.AddKey(ConsoleKey.F3, PrintInvoice);
         lp.Select();
     }
 }

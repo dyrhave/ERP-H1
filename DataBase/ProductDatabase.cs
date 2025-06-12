@@ -5,16 +5,38 @@ public partial class Database
     List<Product> products = new();
     public Product? GetProductById(int id)
     {
-        foreach (var product in products)
+        SqlConnection conn = GetConnection();
+
+        string queryString = @"
+            SELECT p.ProductId, p.Name, p.Description, p.Price, p.BuyInPrice, 
+                   p.Quantity, p.Location, p.Unit
+            FROM ProductDatabase p
+            WHERE p.ProductId = @ProductId";
+
+        using (SqlCommand command = new(queryString, conn))
         {
-            if (product.ProductId == id)
+            command.Parameters.AddWithValue("@ProductId", id);
+            using (SqlDataReader reader = command.ExecuteReader())
             {
-                return product;
+                if (reader.Read())
+                {
+                    return new Product()
+                    {
+                        ProductId = reader.GetInt32(reader.GetOrdinal("ProductId")),
+                        Name = reader.GetString(reader.GetOrdinal("Name")),
+                        Description = reader.IsDBNull(reader.GetOrdinal("Description")) ? string.Empty : reader.GetString(reader.GetOrdinal("Description")),
+                        Price = reader.GetDecimal(reader.GetOrdinal("Price")),
+                        BuyInPrice = reader.GetDecimal(reader.GetOrdinal("BuyInPrice")),
+                        Quantity = reader.GetDecimal(reader.GetOrdinal("Quantity")),
+                        Location = reader.IsDBNull(reader.GetOrdinal("Location")) ? string.Empty : reader.GetString(reader.GetOrdinal("Location")),
+                        Unit = reader.IsDBNull(reader.GetOrdinal("Unit")) ? string.Empty : reader.GetString(reader.GetOrdinal("Unit"))
+                    };
+                }
             }
         }
-        return null;
 
-    }    
+        return null;
+    }
     public Product[] GetProduct()
     {
         List<Product> productsList = new();

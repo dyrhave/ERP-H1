@@ -4,14 +4,14 @@ public class SalesInfo : Screen
 {
     public override string Title { get; set; } = "Sales Order";
 
-    void Back(SalesOrder so) => Quit();
+    void Back(SalesOrderHeader so) => Quit();
 
-    void Delete(SalesOrder so)
+    void Delete(SalesOrderHeader so)
     {
-        Database.Instance?.DeleteSale(so.OrderId);
+        Database.Instance?.DeleteSalesOrder(so.OrderId);
         Clear();
     }
-    void ShowEdit(SalesOrder so)
+    void ShowEdit(SalesOrderHeader so)
     {
         Display(new SalesOrderEdit(so));
     }
@@ -19,13 +19,13 @@ public class SalesInfo : Screen
 
     protected override void Draw()
     {
-        ListPage<SalesOrder> lp = new();
-        lp.AddColumn("Order ID", nameof(SalesOrder.OrderId));
-        lp.AddColumn("Sales Date", nameof(SalesOrder.Created));
-        lp.AddColumn("Customer ID", nameof(SalesOrder.CustomerId));
+        ListPage<SalesOrderHeader> lp = new();
+        lp.AddColumn("Order ID", nameof(SalesOrderHeader.OrderId));
+        lp.AddColumn("Sales Date", nameof(SalesOrderHeader.Created));
+        lp.AddColumn("Customer ID", nameof(SalesOrderHeader.CustomerId));
         lp.AddColumn("Customer Name", nameof(Customer.FullName));
 
-        lp.Add(Database.Instance?.GetSales());
+        lp.Add(Database.Instance?.GetSalesOrders());
 
         lp.AddKey(ConsoleKey.Escape, Back);
         lp.AddKey(ConsoleKey.F5, Delete);

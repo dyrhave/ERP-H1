@@ -7,18 +7,18 @@ public class SalesOrderAdd : Screen
 
     protected override void Draw()
     {
-        SalesOrder so = new();
+        SalesOrderHeader so = new();
 
-        Form<SalesOrder> edit = new Form<SalesOrder>();
-        edit.TextBox("Customer ID", nameof(SalesOrder.CustomerId));
-        edit.TextBox("Total Price", nameof(SalesOrder.TotalPrice));
-        edit.TextBox("Created", nameof(SalesOrder.Created));
+        Form<SalesOrderHeader> edit = new Form<SalesOrderHeader>();
+        edit.TextBox("Customer ID", nameof(SalesOrderHeader.CustomerId));
+        edit.TextBox("Order Amount", nameof(SalesOrderHeader.OrderAmount));
+        edit.TextBox("Created", nameof(SalesOrderHeader.Created));
 
         if (edit.Edit(so))
         {
             try
             {
-                Database.Instance.AddSale(so);
+                Database.Instance.AddSalesOrder(so);
                 Quit();
             }
             catch (Exception ex)

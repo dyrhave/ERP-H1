@@ -55,7 +55,7 @@ public partial class Database
         return null;
     }
 
-    public Customer[] GetCustomers() // Refactored to use proper JOINs with Person table
+    public Customer[] GetCustomers()
     {
         List<Customer> customerList = new();
         SqlConnection connection = GetConnection();
@@ -92,7 +92,9 @@ public partial class Database
             }
         }
         return customerList.ToArray();
-    }    public void AddCustomer(Customer c)
+    }
+
+    public void AddCustomer(Customer c)
     {
         SqlConnection connection = GetConnection();
 
@@ -131,14 +133,16 @@ public partial class Database
 
             c.CustomerId = Convert.ToInt32(customerCommand.ExecuteScalar());
         }
-    }    public void UpdateCustomer(Customer c)
+    }
+
+    public void UpdateCustomer(Customer c)
     {
         SqlConnection connection = GetConnection();
 
-        // Get the PersonId for this customer
+        // Get the PersonId
         string getPersonIdSql = "SELECT PersonId FROM CustomerDatabase WHERE CustomerId = @CustomerId";
         int personId;
-        
+
         using (SqlCommand getPersonCmd = new SqlCommand(getPersonIdSql, connection))
         {
             getPersonCmd.Parameters.AddWithValue("@CustomerId", c.CustomerId);
@@ -152,7 +156,7 @@ public partial class Database
                 Phone = @Phone, Street = @Street, StreetNumber = @StreetNumber, 
                 City = @City, Country = @Country, PostCode = @PostCode 
             WHERE PersonId = @PersonId";
-            
+
         using (SqlCommand updatePersonCommand = new(updatePersonSql, connection))
         {
             updatePersonCommand.Parameters.AddWithValue("@PersonId", personId);
@@ -174,7 +178,7 @@ public partial class Database
             UPDATE CustomerDatabase 
             SET LastPurchaseDate = @LastPurchaseDate 
             WHERE CustomerId = @CustomerId";
-            
+
         using (SqlCommand updateCustomerCommand = new(updateCustomerSql, connection))
         {
             updateCustomerCommand.Parameters.AddWithValue("@CustomerId", c.CustomerId);
@@ -182,21 +186,23 @@ public partial class Database
 
             updateCustomerCommand.ExecuteNonQuery();
         }
-    }    public void DeleteCustomer(int id)
+    }
+
+    public void DeleteCustomer(int id)
     {
         SqlConnection connection = GetConnection();
 
-        // Get the PersonId for this customer
+        // Get the PersonId
         string getPersonIdSql = "SELECT PersonId FROM CustomerDatabase WHERE CustomerId = @CustomerId";
         int personId;
-        
+
         using (SqlCommand getPersonCmd = new SqlCommand(getPersonIdSql, connection))
         {
             getPersonCmd.Parameters.AddWithValue("@CustomerId", id);
             personId = Convert.ToInt32(getPersonCmd.ExecuteScalar());
         }
 
-        // Delete from CustomerDatabase first (foreign key constraint)
+        // First delete from CustomerDatabase (foreign key)
         string deleteCustomerSql = "DELETE FROM CustomerDatabase WHERE CustomerId = @CustomerId";
         using (SqlCommand deleteCustomerCommand = new(deleteCustomerSql, connection))
         {
@@ -211,7 +217,7 @@ public partial class Database
             deletePersonCommand.Parameters.AddWithValue("@PersonId", personId);
             deletePersonCommand.ExecuteNonQuery();
         }
-        
+
         _customers.RemoveAll(c => c.CustomerId == id);
     }
 }

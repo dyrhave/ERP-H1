@@ -86,28 +86,30 @@ public partial class Database
 
         object companyResult = cmd.ExecuteScalar();
         company.CompanyId = Convert.ToInt32(companyResult);
-    }    public void UpdateCompany(Company company)
+    }
+
+    public void UpdateCompany(Company company)
     {
         SqlConnection conn = GetConnection();
-        
-        // Get the current AddressId for this company
+
+        // Get AddressId for company
         string getAddressIdSql = "SELECT AddressId FROM CompanyDatabase WHERE CompanyId = @CompanyId";
         int addressId;
-        
+
         using (SqlCommand getAddressCmd = new SqlCommand(getAddressIdSql, conn))
         {
             getAddressCmd.Parameters.AddWithValue("@CompanyId", company.CompanyId);
             object result = getAddressCmd.ExecuteScalar();
             addressId = Convert.ToInt32(result);
         }
-        
+
         // Update the address
         string updateAddressSql = @"
             UPDATE AddressDatabase 
             SET Street = @Street, StreetNumber = @StreetNumber, City = @City, 
                 Country = @Country, PostCode = @PostCode
             WHERE AddressId = @AddressId";
-                
+
         using (SqlCommand updateAddressCmd = new SqlCommand(updateAddressSql, conn))
         {
             updateAddressCmd.Parameters.AddWithValue("@AddressId", addressId);
@@ -119,7 +121,7 @@ public partial class Database
             updateAddressCmd.ExecuteNonQuery();
         }
 
-        // Update company record
+        // Update company
         string updateCompanySql = @"
             UPDATE CompanyDatabase
             SET Name = @Name, Currency = @Currency

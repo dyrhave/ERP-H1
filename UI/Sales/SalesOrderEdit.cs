@@ -2,9 +2,9 @@ using TECHCOOL.UI;
 
 public class SalesOrderEdit : Screen
 {
-    SalesOrder _so;
+    SalesOrderHeader _so;
 
-    public SalesOrderEdit(SalesOrder so)
+    public SalesOrderEdit(SalesOrderHeader so)
     {
         _so = so;
     }
@@ -13,23 +13,19 @@ public class SalesOrderEdit : Screen
 
     protected override void Draw()
     {
-        SalesOrder salesOrder = new();
+        SalesOrderHeader salesOrder = new();
 
-        Form<SalesOrder> editor = new();
-        editor.TextBox("First Name", nameof(Customer.FirstName));
-        editor.TextBox("Last Name", nameof(Customer.LastName));
-        editor.TextBox("Street", nameof(Customer.Street));
-        editor.TextBox("Street Number", nameof(Customer.StreetNumber));
-        editor.TextBox("Postal Code", nameof(Customer.PostCode));
-        editor.TextBox("City", nameof(Customer.City));
-        editor.TextBox("Email", nameof(Customer.Email));
-        editor.TextBox("Phone", nameof(Customer.Phone));
+        Form<SalesOrderHeader> editor = new();
+        editor.TextBox("Customer ID", nameof(SalesOrderHeader.CustomerId));
+        editor.TextBox("Created", nameof(SalesOrderHeader.Created));
+        editor.TextBox("Order Completed", nameof(SalesOrderHeader.OrderCompleted));
+        editor.TextBox("State", nameof(SalesOrderHeader.State));
         
         if (editor.Edit(_so))
         {
             try
             {
-                Database.Instance.UpdateSale(_so);
+                Database.Instance.UpdateSalesOrder(_so);
             }
             catch (Exception ex)
             {

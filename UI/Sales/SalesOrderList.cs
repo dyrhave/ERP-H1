@@ -4,31 +4,31 @@ public class SalesOrderList : Screen
 {
     public override string Title { get; set; } = "Sales Orders";
 
-    void ShowInfo(SalesOrder so)
+    void ShowInfo(SalesOrderHeader so)
     {
         Display(new SalesInfo());
     }
 
-    void showAdd(SalesOrder so)
+    void showAdd(SalesOrderHeader so)
     {
         Display(new SalesOrderAdd());
     }
     
-    void Back(SalesOrder so)
+    void Back(SalesOrderHeader so)
     {
         Quit();
     }
 
     protected override void Draw()
     {
-        ListPage<SalesOrder> lp = new();
-        lp.AddColumn("Order ID", nameof(SalesOrder.OrderId));
-        lp.AddColumn("Date Created", nameof(SalesOrder.Created));
-        lp.AddColumn("Customer ID", nameof(SalesOrder.CustomerId));
+        ListPage<SalesOrderHeader> lp = new();
+        lp.AddColumn("Order ID", nameof(SalesOrderHeader.OrderId));
+        lp.AddColumn("Date Created", nameof(SalesOrderHeader.Created));
+        lp.AddColumn("Customer ID", nameof(SalesOrderHeader.CustomerId));
         lp.AddColumn("Customer Name", nameof(Customer.FullName));
-        lp.AddColumn("Price", nameof(SalesOrder.TotalPrice));
+        lp.AddColumn("Price", nameof(SalesOrderHeader.OrderAmount));
 
-        lp.Add(Database.Instance?.GetSales());
+        lp.Add(Database.Instance?.GetSalesOrders());
 
         lp.AddKey(ConsoleKey.F1, ShowInfo);
         lp.AddKey(ConsoleKey.F2, showAdd);

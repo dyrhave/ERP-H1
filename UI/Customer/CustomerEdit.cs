@@ -16,16 +16,17 @@ public class CustomerEdit : Screen
         editor.TextBox("First Name", nameof(Customer.FirstName));
         editor.TextBox("Last Name", nameof(Customer.LastName));
         editor.TextBox("Email", nameof(Customer.Email));
-        editor.TextBox("Street", nameof(Customer.Street));
-        editor.TextBox("Street Number", nameof(Customer.StreetNumber));
-        editor.TextBox("City", nameof(Customer.City));
-        editor.TextBox("PostCode", nameof(Customer.PostCode));
-        editor.TextBox("Country", nameof(Customer.Country));
+        editor.TextBox("Street", nameof(Address.Street));
+        editor.TextBox("Street Number", nameof(Address.StreetNumber));
+        editor.TextBox("City", nameof(Address.City));
+        editor.TextBox("PostCode", nameof(Address.PostCode));
+        editor.TextBox("Country", nameof(Address.Country));
 
         editor.Edit(_customerToEdit);
 
         try
         {
+            Database.Instance.AddAddress(_customerToEdit.Address);
             Database.Instance.UpdateCustomer(_customerToEdit);
             Console.WriteLine($"Customer {_customerToEdit.FullName} updated successfully.");
         }

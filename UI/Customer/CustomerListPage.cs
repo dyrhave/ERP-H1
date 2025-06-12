@@ -21,12 +21,14 @@ public class CustomerListPage : Screen
 
     protected override void Draw()
     {
+        ListPage<Address> lpAddress = new();
         ListPage<Customer> lp = new();
         lp.AddColumn("CustomerId", nameof(Customer.CustomerId));
-        lp.AddColumn("Name", nameof(Person.FullName));
+        lp.AddColumn("Name", nameof(Person.FullName));        
         lp.AddColumn("Phone", nameof(Person.Phone));
         lp.AddColumn("Email", nameof(Person.Email));
 
+        lpAddress.Add(Database.Instance?.GetAddresses());
         lp.Add(Database.Instance?.GetCustomers());
 
         lp.AddKey(ConsoleKey.F1, ShowInfo);                

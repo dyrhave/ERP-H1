@@ -25,12 +25,13 @@ public class CompanyListPage : Screen
     protected override void Draw()
     {
 
-
+        ListPage<Address> lpAddress = new();
         ListPage<Company> lp = new();
         lp.AddColumn("Name", nameof(Company.Name));
-        lp.AddColumn("Country", nameof(Company.Country));
+        lp.AddColumn("Country", nameof(Address.Country));
         lp.AddColumn("Currency", nameof(Company.Currency));
 
+        lpAddress.Add(Database.Instance?.GetAddresses());
         lp.Add(Database.Instance.GetCompany());
 
 

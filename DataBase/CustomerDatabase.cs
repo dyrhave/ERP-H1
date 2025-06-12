@@ -16,12 +16,13 @@ public partial class Database
         return null;
     }
 
-    public Customer[] GetCustomers() // Temporary structure - fix when database is implemented
+    public Customer[] GetCustomers() 
     {
         List<Customer> customerList = new();
         SqlConnection connection = GetConnection();
         
-        string queryString = "SELECT * FROM CustomerDatabase";
+        string queryString = @"SELECT CustomerId,FirstName,LastName,Email,Phone,AddressDatabase.AddressId,Street,StreetNumber,City,Country,PostCode FROM CustomerDatabase
+         LEFT JOIN AddressDatabase ON CompanyDatabase.AddressId = AddressDatabase.AddressId";
         using (SqlCommand command = new(queryString, connection))
         {
             using (SqlDataReader reader = command.ExecuteReader())
@@ -35,11 +36,12 @@ public partial class Database
                         LastName = reader.GetString(2),
                         Email = reader.GetString(3),
                         Phone = reader.GetString(4),
-                        Street = reader.GetString(5),
-                        StreetNumber = reader.GetString(6),
-                        City = reader.GetString(7),
-                        Country = reader.GetString(8),
-                        PostCode = reader.GetString(9)
+                        AddressId = reader.GetInt32(2),                        
+                        Street = reader.GetString(4),
+                        StreetNumber = reader.GetString(5),
+                        City = reader.GetString(6),
+                        Country = reader.GetString(7),
+                        PostCode = reader.GetString(8)                       
                     };
                     customerList.Add(customer);
                 }
@@ -52,8 +54,8 @@ public partial class Database
     {
         SqlConnection connection = GetConnection();
 
-        string queryString = "INSERT INTO CustomerDatabase (FirstName, LastName, Email, Phone, Street, StreetNumber, City, Country, PostCode) " +
-                                "VALUES (@FirstName, @LastName, @Email, @Phone, @Street, @StreetNumber, @City, @Country, @PostCode); " +
+        string queryString = "INSERT INTO CustomerDatabase (FirstName, LastName, Email, Phone) " +
+                                "VALUES (@FirstName, @LastName,@AddressId, @Email, @Phone); " +
                                 "SELECT SCOPE_IDENTITY();";
 
         using (SqlCommand command = new(queryString, connection))
@@ -61,12 +63,8 @@ public partial class Database
             command.Parameters.AddWithValue("@FirstName", c.FirstName);
             command.Parameters.AddWithValue("@LastName", c.LastName);
             command.Parameters.AddWithValue("@Email", c.Email);
+            command.Parameters.AddWithValue("@AddressId", c.AddressId);
             command.Parameters.AddWithValue("@Phone", c.Phone);
-            command.Parameters.AddWithValue("@Street", c.Street);
-            command.Parameters.AddWithValue("@StreetNumber", c.StreetNumber);
-            command.Parameters.AddWithValue("@City", c.City);
-            command.Parameters.AddWithValue("@Country", c.Country);
-            command.Parameters.AddWithValue("@PostCode", c.PostCode);
 
             try
             {
@@ -85,8 +83,8 @@ public partial class Database
         SqlConnection connection = GetConnection();
 
         string queryString = "UPDATE CustomerDatabase SET FirstName = @FirstName, LastName = @LastName, Email = @Email, " +
-                             "Phone = @Phone, Street = @Street, StreetNumber = @StreetNumber, City = @City, " +
-                             "Country = @Country, PostCode = @PostCode WHERE CustomerId = @CustomerId";
+                             "Phone = @Phone,AddressId = @AddressId,  " +
+                             " WHERE CustomerId = @CustomerId";
         using (SqlCommand command = new(queryString, connection))
         {
             command.Parameters.AddWithValue("@CustomerId", c.CustomerId);
@@ -94,11 +92,8 @@ public partial class Database
             command.Parameters.AddWithValue("@LastName", c.LastName);
             command.Parameters.AddWithValue("@Email", c.Email);
             command.Parameters.AddWithValue("@Phone", c.Phone);
-            command.Parameters.AddWithValue("@Street", c.Street);
-            command.Parameters.AddWithValue("@StreetNumber", c.StreetNumber);
-            command.Parameters.AddWithValue("@City", c.City);
-            command.Parameters.AddWithValue("@Country", c.Country);
-            command.Parameters.AddWithValue("@PostCode", c.PostCode);
+            command.Parameters.AddWithValue("@AddressId", c.AddressId);
+
 
             try
             {

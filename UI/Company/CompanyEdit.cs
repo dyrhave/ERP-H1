@@ -17,11 +17,11 @@ public class CompanyEdit : Screen
 
     Form<Company> editor = new();
     editor.TextBox("Title", nameof(Company.Name));
-    editor.TextBox("Street", nameof(Company.Street));
-    editor.TextBox("StreetNumber", nameof(Company.StreetNumber));
-    editor.TextBox("PostalCode", nameof(Company.PostCode));
-    editor.TextBox("City", nameof(Company.City));
-    editor.TextBox("Contry", nameof(Company.Country));
+    editor.TextBox("Street", nameof(Address.Street));
+    editor.TextBox("StreetNumber", nameof(Address.StreetNumber));
+    editor.TextBox("PostalCode", nameof(Address.PostCode));
+    editor.TextBox("City", nameof(Address.City));
+    editor.TextBox("Contry", nameof(Address.Country));
     editor.SelectBox("Currency", nameof(Company.Currency));
     editor.AddOption("Currency", "USD", Currency.USD);
     editor.AddOption("Currency", "EUR", Currency.EUR);
@@ -33,6 +33,8 @@ public class CompanyEdit : Screen
 
     if (editor.Edit(_company))
     {
+       _company.Address.AddressId = _company.AddressId;
+      Database.Instance.UpdateAddress(_company.Address);
       Database.Instance.UpdateCompany(_company);
       Quit();
     }

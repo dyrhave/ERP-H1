@@ -2,11 +2,27 @@ public abstract class Person
 {
     public string FirstName { get; set; } = "";
     public string LastName { get; set; } = "";
-    public string Street { get; set; } = "";
-    public string StreetNumber { get; set; } = "";
-    public string City { get; set; } = "";
-    public string Country { get; set; } = "";
-    public string PostCode { get; set; } = "";
+    public Address Address { get; set; } = new Address();
+    public string Street { 
+        get => Address.Street; 
+        set => Address.Street = value; 
+    }
+    public string StreetNumber { 
+        get => Address.StreetNumber; 
+        set => Address.StreetNumber = value; 
+    }
+    public string City  { 
+        get => Address.City; 
+        set => Address.City = value; 
+    }
+    public string Country { 
+        get => Address.Country; 
+        set => Address.Country = value; 
+    }
+    public string PostCode { 
+        get => Address.PostCode; 
+        set => Address.PostCode = value; 
+    }
     public string Email { get; set; } = "";
     public string Phone { get; set; } = "";
     public string LastPurchaseDate { get; set; } = "";

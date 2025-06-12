@@ -15,13 +15,14 @@ public partial class Database
         return null;
 
     }
-    public Company[] GetCompany() // Temporary structure - fix when database is implemented
+    public Company[] GetCompany()
     {
         List<Company> companyList = new();
         SqlConnection connection = GetConnection();
 
 
-        string queryString = "SELECT * FROM CompanyDatabase";
+        string queryString = @"SELECT CompanyId,Name,AddressDatabase.AddressId,Currency,Street,StreetNumber,City,Country,PostCode FROM CompanyDatabase
+         LEFT JOIN AddressDatabase ON CompanyDatabase.AddressId = AddressDatabase.AddressId";
         using (SqlCommand command = new(queryString, connection))
         {
             using (SqlDataReader reader = command.ExecuteReader())
@@ -32,12 +33,14 @@ public partial class Database
                     {
                         CompanyId = reader.GetInt32(0),
                         Name = reader.GetString(1),
-                        Street = reader.GetString(2),
-                        StreetNumber = reader.GetString(3),
-                        City = reader.GetString(4),
-                        Country = reader.GetString(5),
-                        PostCode = reader.GetString(6),
-                        Currency = (Currency)Enum.Parse(typeof(Currency), reader.GetString(7))
+                        AddressId = reader.GetInt32(2),
+                        Currency = (Currency)Enum.Parse(typeof(Currency), reader.GetString(3)),
+                        Street = reader.GetString(4),
+                        StreetNumber = reader.GetString(5),
+                        City = reader.GetString(6),
+                        Country = reader.GetString(7),
+                        PostCode = reader.GetString(8)
+
                     };
                     companyList.Add(company);
                 }
@@ -50,21 +53,18 @@ public partial class Database
     public void AddCompany(Company company)
     {
         SqlConnection conn = GetConnection();
-        
+
         string sql = @"
-        INSERT INTO CompanyDatabase (Name, Street, StreetNumber, City, Country, Currency, PostCode)
-        VALUES (@Name, @Street, @StreetNumber, @City, @Country, @Currency, @PostCode);
+        INSERT INTO CompanyDatabase (Name,AddressId, Currency)
+        VALUES (@Name,@AddressId, @Currency);
         SELECT SCOPE_IDENTITY();
     ";
 
         using SqlCommand cmd = new SqlCommand(sql, conn);
         cmd.Parameters.AddWithValue("@Name", company.Name);
-        cmd.Parameters.AddWithValue("@Street", company.Street);
-        cmd.Parameters.AddWithValue("@StreetNumber", company.StreetNumber);
-        cmd.Parameters.AddWithValue("@City", company.City);
-        cmd.Parameters.AddWithValue("@Country", company.Country);
+        cmd.Parameters.AddWithValue("@AddressId", company.AddressId);
         cmd.Parameters.AddWithValue("@Currency", company.Currency.ToString());
-        cmd.Parameters.AddWithValue("@PostCode", company.PostCode);
+
 
 
 
@@ -78,30 +78,27 @@ public partial class Database
     public void UpdateCompany(Company company)
     {
         SqlConnection conn = GetConnection();
-        
+
 
         string sql = @"
-            UPDATE CompanyDatabase
-            SET Name = @Name, Street = @Street, StreetNumber = @StreetNumber, City = @City, Country = @Country, Currency = @Currency, PostCode = @PostCode
-            WHERE CompanyId = @CompanyId;
-        ";
+    UPDATE CompanyDatabase
+    SET Name = @Name, Currency = @Currency, AddressId = @AddressId
+    WHERE CompanyId = @CompanyId;
+";
 
         using SqlCommand cmd = new SqlCommand(sql, conn);
         cmd.Parameters.AddWithValue("@CompanyId", company.CompanyId);
         cmd.Parameters.AddWithValue("@Name", company.Name);
-        cmd.Parameters.AddWithValue("@Street", company.Street);
-        cmd.Parameters.AddWithValue("@StreetNumber", company.StreetNumber);
-        cmd.Parameters.AddWithValue("@City", company.City);
-        cmd.Parameters.AddWithValue("@Country", company.Country);
         cmd.Parameters.AddWithValue("@Currency", company.Currency.ToString());
-        cmd.Parameters.AddWithValue("@PostCode", company.PostCode);
+        cmd.Parameters.AddWithValue("@AddressId", company.AddressId);
+
 
         cmd.ExecuteNonQuery();
     }
     public void DeleteCompany(int id)
     {
-       SqlConnection conn = GetConnection();
-        
+        SqlConnection conn = GetConnection();
+
 
         string sql = "DELETE FROM CompanyDatabase WHERE CompanyId = @CompanyId";
         using SqlCommand cmd = new SqlCommand(sql, conn);

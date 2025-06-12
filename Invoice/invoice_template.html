@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoice</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="invoice-container">
+        <header class="invoice-header">
+            <h1 class="invoice-title">Invoice</h1>
+            <div class="company-details">
+                <h2>LNE Security A/S</h2>
+                <p>LNEvej 1, 9000 Aalborg</p>
+                <p>Phone: +45 1337 1337</p>
+                <p>Email: info@lnesecurity.dk</p>
+            </div>
+        </header>        <section class="customer-details">
+            <div class="customer-block">
+                <h3>Bill to:</h3>
+                <p><strong>CustomerName</strong></p>
+                <p>CustomerAddress</p>
+                <p>Email: CustomerEmail</p>
+            </div>
+            <div class="order-block">
+                <h3>Order Details:</h3>
+                <p><strong>Order #:</strong> OrderNumber</p>
+                <p><strong>Date:</strong> OrderDate</p>
+            </div>
+        </section>
+
+        <section class="invoice-items">
+            <table class="invoice-table">
+                <thead>
+                    <tr>
+                        <th>Item</th>
+                        <th>Quantity</th>
+                        <th>Unit Price</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody id="invoiceItems">
+                    <tr>
+                        <td>Item 1</td>
+                        <td>1</td>
+                        <td>DKK UnitPrice</td>
+                        <td>DKK Total</td>
+                    </tr>
+                    <tr>
+                        <td>Item 2</td>
+                        <td>2</td>
+                        <td>DKK UnitPrice</td>
+                        <td>DKK Total</td>
+                    </tr>
+                    <!-- Invoice items here -->
+                     </tbody>
+            </table>
+        </section>
+
+        <section class="invoice-summary">
+            <div class="totals-block">
+                <div class="total-row">
+                    <span>Subtotal:</span>
+                    <strong>DKK Subtotal</strong>
+                </div>
+                <div class="total-row">
+                    <span>VAT (25%):</span>
+                    <strong>DKK VAT</strong>
+                </div>
+                <div class="grand-total">
+                    Total Due: DKK{{GrandTotal}}
+                </div>
+            </div>
+        </section>
+    </div>
+</body>
+</html>

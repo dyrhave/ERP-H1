@@ -23,7 +23,8 @@ public class SalesInfo : Screen
         lp.AddColumn("Order ID", nameof(SalesOrderHeader.OrderId));
         lp.AddColumn("Sales Date", nameof(SalesOrderHeader.Created));
         lp.AddColumn("Customer ID", nameof(SalesOrderHeader.CustomerId));
-        lp.AddColumn("Customer Name", nameof(Customer.FullName));
+        lp.AddColumn("Customer Name", nameof(SalesOrderHeader.FullName));
+        lp.AddColumn("State", nameof(SalesOrderHeader.State));
 
         lp.Add(Database.Instance?.GetSalesOrders());
 

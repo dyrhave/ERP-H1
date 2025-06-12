@@ -23,9 +23,9 @@ public class CustomerListPage : Screen
     {
         ListPage<Customer> lp = new();
         lp.AddColumn("CustomerId", nameof(Customer.CustomerId));
-        lp.AddColumn("Name", nameof(Person.FullName));
-        lp.AddColumn("Phone", nameof(Person.Phone));
-        lp.AddColumn("Email", nameof(Person.Email));
+        lp.AddColumn("Name", nameof(Customer.FullName));
+        lp.AddColumn("Phone", nameof(Customer.Phone));
+        lp.AddColumn("Email", nameof(Customer.Email));
 
         lp.Add(Database.Instance?.GetCustomers());
 

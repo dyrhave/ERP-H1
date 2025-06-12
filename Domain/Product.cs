@@ -3,7 +3,7 @@ public class Product
     public int ProductId { get; set; }
     public string Name { get; set; } = "";
     public string Description { get; set; } = "";
-  public decimal Price { get; set; } = 1;
+    public decimal Price { get; set; } = 1;
     public decimal BuyInPrice { get; set; } = 1;
     public decimal Quantity { get; set; } 
     public string Location { get; set; } = "";
@@ -18,16 +18,15 @@ public class Product
       get{ return profit(Price, BuyInPrice); }
       set{ profit(Price, BuyInPrice); } 
     }
+  public decimal profit(decimal Price, decimal BuyInPrice)
+  {
+    return Price - BuyInPrice;
+  }
 
-   public decimal profit (decimal Price, decimal BuyInPrice)
-   {
-         return (int)(Price - BuyInPrice);
-   }
-   public decimal ProfitMargin (decimal Price, decimal BuyInPrice)
-   {
-       
-     return (int)((Price - BuyInPrice) / Price * 100);
-
-   }
+  public decimal ProfitMargin(decimal Price, decimal BuyInPrice)
+  {
+    if (Price == 0) return 0;
+    return Math.Round((Price - BuyInPrice) / Price * 100, 2);
+  }
 
 }

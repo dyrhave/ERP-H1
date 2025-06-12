@@ -25,7 +25,8 @@ public class SalesOrderList : Screen
         lp.AddColumn("Order ID", nameof(SalesOrderHeader.OrderId));
         lp.AddColumn("Date Created", nameof(SalesOrderHeader.Created));
         lp.AddColumn("Customer ID", nameof(SalesOrderHeader.CustomerId));
-        lp.AddColumn("Customer Name", nameof(Customer.FullName));
+        lp.AddColumn("Customer Name", nameof(SalesOrderHeader.FullName));
+        lp.AddColumn("State", nameof(SalesOrderHeader.State));
         lp.AddColumn("Price", nameof(SalesOrderHeader.OrderAmount));
 
         lp.Add(Database.Instance?.GetSalesOrders());

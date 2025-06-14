@@ -10,10 +10,11 @@ public partial class Database
     private Database()
     {
         SqlConnectionStringBuilder sb = new();
-        sb.DataSource = "DESKTOP-0PBVOB5";
-        sb.InitialCatalog = "LNE_Security_ERP";
-        sb.UserID = "GruppeMR";
-        sb.Password = "Pass123";
+        sb.DataSource = ".";
+        sb.InitialCatalog = "LNE_Security";
+        // sb.UserID = "GruppeMR";
+        // sb.Password = "Pass123";
+        sb.IntegratedSecurity = true; // local db use windows auth
         sb.Encrypt = true;
         sb.TrustServerCertificate = true;
 
